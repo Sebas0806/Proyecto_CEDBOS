@@ -1,0 +1,73 @@
+/* ---------------------------------------------------
+    Estilos de requerimientos de campos
+----------------------------------------------------- */
+
+label {
+	font-weight: bold;
+}
+
+label span {
+	font-size: 1rem;
+}
+
+label.error {
+	color: rgb(255, 48, 48);
+	font-size: 12px;
+	display: block;
+	margin-top: 5px;
+}
+
+input.error,
+textarea.error,
+select.error {
+	border: 1px solid rgb(255, 48, 48);
+	font-weight: 300;
+	color: rgb(255, 48, 48);
+}
+
+input.error::placeholder {
+	color: red !important;
+}
+
+/* ---------------------------------------------------
+    Estilos de medidor de seguridad de la contraseña
+----------------------------------------------------- */
+
+.rating {
+	border-radius: 3px;
+	color: white;
+	height: 2px;
+	display: inline-block;
+	padding: 2px;
+}
+
+.weakMessage {
+	color: #ef1111;
+}
+
+.moderateMessage {
+	color: #ffc700;
+}
+
+.strongMessage {
+	color: #22ba3e;
+}
+
+.weakPassword {
+	background-color: #ef1111;
+	width: 25%;
+}
+
+.moderatePassword {
+	background-color: #ffc700;
+	width: 50%;
+}
+
+.strongPassword {
+	background-color: #22ba3e;
+	width: 100%;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}

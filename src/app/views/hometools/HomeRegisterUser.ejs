@@ -1,0 +1,244 @@
+<%- include ('../partials/_header') %>
+        <link rel="stylesheet" href="/resources/css/style.css" />
+    </head>
+<body>
+    <div class="wrapper">
+        <nav class="sidebar">
+            <div class="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="sidebar-header">
+                <img
+                    src="https://archive.sdb.org/image/sdb-logo-big.png"
+                    alt="..."
+                    width="80"
+                    class="rounded mx-auto d-block"
+                />
+                <hr />
+            </div>
+            <ul class="list-unstyled">
+                <li>
+                    <a href="/home">
+                        <span> <i class="fas fa-home"></i></span>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a class="data-register-dropdown"
+                        ><span> <i class="fas fa-database"> </i> </span
+                        >Registro de datos</a
+                    >
+                    <ul class="list-unstyled data-register-list">
+                        <li>
+                            <a href="/Home/registerstudent">
+                                Registrar estudiante</a
+                            >
+                        </li>
+                        <li><a href=""> Registrar productos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"
+                        ><span><i class="fas fa-history"></i></span
+                        >Historial</a
+                    >
+                </li>
+                <li>
+                    <a href="#"
+                        ><span><i class="fas fa-cog"></i></span
+                        >Configuraciones</a
+                    >
+                </li>
+                <li>
+                    <a href="/logout"
+                        ><span><i class="fas fa-sign-out-alt"></i></span
+                        >Cerrar Sesión</a
+                    >
+                </li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <nav class="navbar navbar-expand-lg bg-danger">
+                <div class="container-fluid">
+                    <button
+                        type="button"
+                        id="sidebarCollapse"
+                        class="btn btn-danger"
+                    >
+                        <span><i class="fas fa-bars"></i></span>
+                    </button>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <form method="POST" class="form p-3">
+                    <h1 class="text-center text-danger">
+                        Registro de estudiante
+                    </h1>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label m-2">Nombre</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label m-2">Apellidos</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="last_name"
+                                name="lastname"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label m-2">Email</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label m-2">Municipio</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputAddress2"
+                                name="municipality"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label m-2">Barrio</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputAddress2"
+                                name="neighborhood"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label m-2">Dirección</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputCity"
+                                name="address"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="form-label m-2"
+                                >Tipo de documento</label
+                            >
+                            <select
+                                name="typedocument"
+                                id="document"
+                                class="form-select"
+                                required
+                            >
+                                <option selected value=""></option>
+                                <option value="CC">CC</option>
+                                <option value="TI">TI</option>
+                                <option value="RC">RC</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label m-2"
+                                >Numero de documento</label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="inputCity"
+                                name="document"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label m-2">Telefono</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="telephone"
+                                name="telephone"
+                                required
+                            />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label m-2">Celular</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="cel"
+                                name="cel"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label class="form-label m-2"> Sexo </label>
+                            <select
+                                name="sex"
+                                id="sex"
+                                class="form-select"
+                                required
+                            >
+                                <option value="" selected></option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label m-2"
+                                >Fecha de nacimiento</label
+                            >
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="date"
+                                id="date"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <button
+                    type="submit"
+                    class="btn btn-danger"
+                    style="margin-top: 40px; width: 200px;"
+                    >
+                        Registrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="overlay"></div>
+    <script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+    <% if (typeof alert != "undefined") { %>
+        <script>
+            Swal.fire({
+                title: '<%= alertTitle %>',
+                text: '<%= alertMessage %>',
+                icon: '<%= alertIcon %>',
+                showCorfimationButton: ' <%= showConfirmButton %>',
+            }).then(() => {
+                window.location = '/<%=ruta%>';
+            });
+        </script>
+    <% } %> 
+<%- include ('../partials/_footer') %>

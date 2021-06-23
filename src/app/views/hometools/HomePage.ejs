@@ -1,0 +1,82 @@
+<%- include ('../partials/_header') %>
+		<link rel="stylesheet" href="/resources/css/style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<nav class="sidebar">
+				<div class="dismiss">
+					<i class="fas fa-arrow-left"></i>
+				</div>
+				<div class="sidebar-header">
+					<img
+						src="https://archive.sdb.org/image/sdb-logo-big.png"
+						alt="..."
+						width="80"
+						class="rounded mx-auto d-block"
+					/>
+					<hr />
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<a href="/home">
+							<span> <i class="fas fa-home"></i></span>
+							Home
+						</a>
+					</li>
+					<li>
+						<a class="data-register-dropdown"
+							><span> <i class="fas fa-database"> </i> </span
+							>Registro de datos</a
+						>
+						<ul class="list-unstyled data-register-list">
+							<li><a href="/Home/registerstudent"> Registrar estudiante</a></li>
+							<li><a href=""> Registrar productos</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#"
+							><span><i class="fas fa-history"></i></span
+							>Historial</a
+						>
+					</li>
+					<li>
+						<a href="#"
+							><span><i class="fas fa-cog"></i></span
+							>Configuraciones</a
+						>
+					</li>
+					<li>
+						<a href="logout"
+							><span><i class="fas fa-sign-out-alt"></i></span
+							>Cerrar Sesión</a
+						>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				<nav
+					class="
+						navbar navbar-expand-lg
+						bg-danger
+					"
+				>
+					<div class="container-fluid">
+						<button
+							type="button"
+							id="sidebarCollapse"
+							class="btn btn-danger"
+						>
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+					</div>
+				</nav>
+				<div class="container-fluid">	
+					<% if (login) { %>
+						<h1 class="text-center text-danger">¡Bienvenido <%= name %>!</h1>
+					<% } %>	
+				</div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+<%- include ('../partials/_footer') %>

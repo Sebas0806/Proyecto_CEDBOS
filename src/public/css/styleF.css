@@ -1,0 +1,21 @@
+body {
+	background-color: #eee;
+}
+
+.logo {
+	display: flex;
+	margin: 0 auto;
+	width: 150px;
+	height: 150px;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+@-moz-document url-prefix() {
+	/* Disable scrollbar Firefox */
+	html {
+		scrollbar-width: none;
+	}
+}

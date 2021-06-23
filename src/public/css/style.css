@@ -1,0 +1,137 @@
+.navbar {
+	padding: 15px 10px;
+	background: #fff;
+	border: none;
+	border-radius: 0;
+	margin-bottom: 40px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.378);
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.sidebar {
+	width: 250px;
+	position: fixed;
+	top: 0;
+	left: -250px;
+	height: 100vh;
+	z-index: 999;
+	background: #fff;
+	color: #a70d0d;
+	transition: all 0.3s;
+	overflow-y: scroll;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+	scrollbar-color: rgba(165, 3, 3, 0.5) rgba(240, 0, 0, 0);
+	scrollbar-width: thin;
+}
+
+.sidebar.active {
+	left: 0;
+}
+
+.dismiss {
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+	-webkit-transition: all 0.3s;
+	-o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.dismiss:hover {
+	color: #e11e3a;
+}
+
+.overlay {
+	display: none;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 998;
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
+}
+
+.overlay.active {
+	display: block;
+	opacity: 1;
+}
+
+.sidebar .sidebar-header {
+	padding: 30px 30px 0 30px;
+	background: #fff;
+}
+
+.sidebar ul li {
+	line-height: 50px;
+	border-bottom: 1px solid rgba(255, 0, 0, 0.207);
+}
+.sidebar ul li a {
+	color: #e11e3a;
+	display: block;
+	text-decoration: none;
+	font-size: 18px;
+	padding-left: 20px;
+	font-weight: 450;
+	width: 100%;
+	border-left: 5px solid transparent;
+	transition: all 0.3s;
+	cursor: pointer;
+}
+.sidebar ul ul {
+	position: fixed;
+	left: -250px;
+}
+.sidebar ul ul li {
+	line-height: 30px;
+	border: none;
+}
+.sidebar ul ul li a {
+	font-size: 16px;
+}
+
+.sidebar ul .data-register-list.active {
+	position: relative;
+	left: 0;
+	transition: all 0.5s;
+}
+.sidebar ul li a span {
+	padding-right: 10px;
+}
+.sidebar ul li a:hover {
+	border-left-color: #e11e3a;
+}
+
+.sidebar ul li .data-register-dropdown.active {
+	background-color: #e11e3a;
+	color: white;
+	transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+.content {
+	width: 100%;
+	transition: all 0.3s;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.content-table {
+	overflow: auto;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}

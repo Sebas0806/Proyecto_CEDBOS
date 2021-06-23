@@ -1,0 +1,137 @@
+<%- include ('partials/_header') %>
+    <title>Centro Educacional Don Bosco</title>
+    <link rel="stylesheet" href="/resources/css/StyleLa.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light shadow">
+            <div class="container-fluid">
+                <span class="navbar-brand text-light" href="#">
+                    <img src="https://archive.sdb.org/image/sdb-logo-big.png" alt="" width="50" height="50" class="">
+                    <div class="text d-inline-block">
+                        <p class="d-none d-lg-block">Centro Educacional Don Bosco</p>
+                    </div>
+                </span>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span><i class="fas fa-bars"></i></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+                        <li class="nav-item me-3">
+                            <a
+                                class="nav-link active"
+                                aria-current="page"
+                                href="/login"
+                                >Iniciar sesion</a
+                            >
+                        </li>
+                        <li class="nav-item me-3"> 
+                            <a class="nav-link active" href="/register">Registrarse</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-link active" style="cursor:pointer;">Acerca de nosotros</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5
+                            class="modal-title"
+                            id="exampleModalLabel"
+                        >
+                            Acerca de nosotros
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <p> 
+                            El aplicativo web se brinda como resultado de aprendizaje final de la tecnica 
+                            en desarollo de software cursada en el SENA convenio con el Instituto Universitario 
+                            Salazar Herrera
+                        </p>
+                        <p>Herramientas de desarollo utilizadas:
+                            <ul>
+                                <li>Nodejs</li>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>Javascript</li>
+                                <li>Bootstrap v5.0</li>
+                                <li>Jquery v3.6.0
+                                    <ul>
+                                        <li>JqueryValidate v1.19.3</li>
+                                        <li>JqueryDatables v1.10.25</li>
+                                    </ul>
+                                </li>
+                                <li>FontAwesome v6.0</li>
+                                <li>SweetAlert2</li>
+                            </ul>
+                        </p>
+                        <p>Imagenes extraidas de: <a href="https://www.pngwing.com/es">https://www.pngwing.com/es</a> <br> Sitio web especializado en brindar imagenes png gratuitas</p>
+                        <p>Aplicativo web creado por:
+                            <ul>
+                                <li>Juan Sebastian Herrera Gomez</li>
+                                <li>Alejandra Henao</li>
+                                <li>Sebastian Grajales</li>
+                                <li>Alexis Henao</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 text-content">
+                <blockquote class="blockquote">
+                    <h1 class="mb-3 text-center fw-bold">Vivenciando la labor salesiana</h1>
+                    <hr class="w-75 d-flex m-auto mb-3"/>
+                    <div class="m-3">
+                        <p>Alegría, estudio y piedad: es el mejor programa para hacerte feliz y que más beneficiará tu alma.</p>
+                        <footer class="blockquote-footer">Giovanni Melchiorre Bosco</footer>
+                    </div>
+                  </blockquote>
+            </div>
+            <div class="col-md-6 d-none d-lg-block">
+                <div class="img-content">
+                    <img src="/resources/img/DonBoscoBocina.png" alt="" class="img-fluid ms-5">
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include ('partials/_footer') %>

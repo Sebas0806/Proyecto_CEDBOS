@@ -1,0 +1,48 @@
+html,
+body {
+	background-color: #e11e3a;
+	font-family: 'Verdana';
+}
+
+.text-content {
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	color: rgb(0, 0, 0);
+}
+
+.navbar {
+	background-color: #e11e3a !important;
+}
+
+.img-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.navbar li a,
+.navbar .navbar-brand {
+	border-bottom: 2px solid transparent;
+	color: #fff !important;
+}
+.navbar-nav li a:hover,
+.navbar-nav li.active a {
+	border-color: white;
+	color: white !important;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+@-moz-document url-prefix() {
+	/* Disable scrollbar Firefox */
+	html {
+		scrollbar-width: none;
+	}
+}

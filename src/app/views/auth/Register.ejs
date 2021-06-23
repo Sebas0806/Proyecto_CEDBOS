@@ -1,0 +1,157 @@
+<%- include ('../partials/_header') %>
+		<title>Registra tu usuario</title>
+		<link rel="stylesheet" href="/resources/css/StyleReq.css">
+		<link rel="stylesheet" href="/resources/css/styleF.css" />	
+	</head>
+	<body> 
+		<div class="container">
+			<div
+				class="
+					row
+					d-flex
+					align-items-center
+					justify-content-center
+					m-0
+					vh-100
+				"
+			>
+				<div class="card mx-auto col-md-6">
+					<div class="card-body">
+						<div class="img-header">
+							<img
+								src="https://archive.sdb.org/image/sdb-logo-big.png"
+								class="logo mb-0"
+							/>
+						</div>
+						<h3 class="card-title text-center mb-2">Registrar usuario</h3>
+						<form class="row g-3" id="RegisterForm" method="POST">
+							<div class="col-12">
+								<input
+									class="form-control"
+									type="text"
+									name="user"
+									id="user"
+									placeholder="Usuario"
+								/>
+							</div>
+							<div class="col-md-6">
+								<input
+									class="form-control"
+									type="text"
+									name="names"
+									id="names"
+									placeholder="Nombre"
+									required
+								/>
+							</div>
+							<div class="col-md-6">
+								<input
+									class="form-control"
+									type="text"
+									name="lastnames"
+									id="lastnames"
+									placeholder="Apellidos"
+									required
+								/>
+							</div>
+							<div class="col-12">
+								<input
+									class="form-control"
+									type="password"
+									name="pass"
+									id="pass"
+									placeholder="Contraseña"
+									required
+								/>
+							</div>
+							<div class="input-group mt-2">
+								<div class="rating mt-0"></div>
+							</div>
+							<p class="MessagePass mb-0 mt-0"></p>
+							<div class="col-12">
+								<input
+									class="form-control"
+									type="password"
+									name="repass"
+									id="repass"
+									placeholder="Confirmar contraseña"
+									required
+								/>
+							</div>
+							<div class="col-12">
+								<select
+									class="form-select"
+									name="Question"
+									required
+								>
+									<option selected value="">
+										Elige una pregunta
+									</option>
+									<option
+										value="¿Cual es el nombre de tu primera mascota?"
+									>
+										¿Cual es el nombre de tu primera
+										mascota?
+									</option>
+									<option
+										value="¿Cual es tu super heroe favorito?"
+									>
+										¿Cual es tu super heroe favorito?
+									</option>
+									<option
+										value="¿Como se llama tu libro favorito?"
+									>
+										¿Como se llama tu libro favorito?
+									</option>
+									<option value="¿Cual es tu mayor secreto?">
+										¿Cual es tu mayor secreto?
+									</option>
+									<option value="¿Quien es tu mejor amigo?">
+										¿Quien es tu mejor amigo?
+									</option>
+									<option
+										value="¿Cual fue tu mayor decepcion?"
+									>
+										¿Cual fue tu mayor decepcion?
+									</option>
+								</select>
+							</div>
+							<div class="col-12">
+								<input
+									class="form-control"
+									type="text"
+									name="Answer"
+									id="Answer"
+									placeholder="Respuesta"
+									required
+								/>
+							</div>
+							<div class="input-group">
+								<input
+									type="submit"
+									value="Registrar"
+									class="btn btn-danger w-100"
+								/>
+							</div>
+						</form>
+						<div class="footer mt-3">
+							<p><a href="/login">¿Ya tienes cuenta?</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+		<% if (typeof alert != "undefined") { %>
+			<script>
+				Swal.fire({
+					title: '<%= alertTitle %>',
+					text: '<%= alertMessage %>',
+					icon: '<%= alertIcon %>',
+					showCorfimationButton: ' <%= showConfirmButton %>',
+				}).then(() => {
+					window.location = '/<%=ruta%>';
+				});
+			</script>
+		<% } %> 
+<%- include ('../partials/_footer') %>

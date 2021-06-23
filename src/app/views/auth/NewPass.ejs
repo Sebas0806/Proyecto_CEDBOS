@@ -1,0 +1,74 @@
+<%- include ('../partials/_header') %> 
+    <link rel="stylesheet" href="/resources/css/StyleReq.css"> 
+    <link rel="stylesheet" href="/resources/css/styleF.css" />	
+</head>
+<body> 
+    <div class="container">
+        <div class="row justify-content-center align-content-center m-0 vh-100">
+            <!-- Register account -->
+            <div class="card shadow col-md-4">
+                <div class="card-header">
+                    <h3>Recuperar contraseña</h3>
+                </div>
+                <img
+                    src="https://archive.sdb.org/image/sdb-logo-big.png"
+                    alt=""
+                    width="150"
+                    class="mx-auto mt-1 d-block"
+                />
+                <div class="card-body">
+                    <form action="/recover/newpass/receivedpass" class="row g-3" method="POST" id="RegisterForm">
+                        <div class="col-12">
+                            <input
+                                class="form-control"
+                                type="password"
+                                name="pass"
+                                id="pass"
+                                placeholder="Nueva contraseña"
+                                required
+                            />
+                        </div>
+                        <div class="input-group mt-2">
+                            <div class="rating mt-0"></div>
+                        </div>
+                        <p class="MessagePass mb-0 mt-0"></p>
+                        <div class="col-12">
+                            <input
+                                class="form-control"
+                                type="password"
+                                name="repass"
+                                id="repass"
+                                placeholder="Confirmar contraseña"
+                                required
+                            />
+                        </div>
+                        <div class="input-group">
+                            <input
+                                type="submit"
+                                value="Recuperar"
+                                class="btn btn-success w-100"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <p><a href="/">Cancelar</a></p>
+                </div>
+            </div>
+            <!-- Register account end -->
+        </div>
+    </div>
+    <script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+    <% if (typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showCorfimationButton: ' <%= showConfirmButton %>',
+        }).then(() => {
+            window.location = '/<%=ruta%>';
+        });
+    </script>
+    <% } %> 
+<%- include ('../partials/_footer') %>

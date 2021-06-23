@@ -1,0 +1,19 @@
+body {
+	background-color: #fff;
+}
+
+.bg {
+	background-image: url('https://cdn.goconqr.com/uploads/multiple_choice_question/image/3605222/desktop_05125c44-9079-4c01-82a2-99400e536237.png');
+	background-color: #ffda9e;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.row_con {
+	height: 100vh;
+}
+
+.contenido {
+	width: 80vh;
+	padding: 20px;
+}
