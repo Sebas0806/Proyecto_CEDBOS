@@ -1,7 +1,7 @@
 {
   "name": "cedbos_proyect",
   "version": "1.0.0",
-  "description": "",
+  "description": "Proyecto grupo juvenil Centro Educacional Don Bosco",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
