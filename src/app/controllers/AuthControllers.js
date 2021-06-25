@@ -33,7 +33,7 @@ AuthControllers.loginview = (req, res) => {
 AuthControllers.register = async (req, res) => {
 	const { user, names, lastnames, pass, Question, Answer } = req.body;
 	connection.query(
-		'SELECT * FROM users WHERE user = ?',
+		'SELECT * FROM users WHERE users = ?',
 		[user],
 		async (error, results) => {
 			if (error) {
@@ -96,7 +96,7 @@ AuthControllers.auth = async (req, res) => {
 
 	if (user && pass) {
 		connection.query(
-			'SELECT * FROM users WHERE User = ?',
+			'SELECT * FROM users WHERE users = ?',
 			[user],
 			async (err, results) => {
 				console.log(results);
@@ -162,7 +162,7 @@ AuthControllers.recover = async (req, res) => {
 
 	if (user && Question && Answer) {
 		connection.query(
-			'SELECT * FROM users WHERE User = ?',
+			'SELECT * FROM users WHERE users = ?',
 			[user],
 			async (err, results) => {
 				console.log(results);
@@ -216,7 +216,7 @@ AuthControllers.newpass = async (req, res) => {
 	let NewPassHash = await bcryptjs.hash(pass, 8);
 
 	connection.query(
-		'UPDATE users SET Pass = ? WHERE User = ?',
+		'UPDATE users SET Pass = ? WHERE users = ?',
 		[NewPassHash, req.session.user],
 		async (err, results) => {
 			res.render('../views/auth/NewPass.ejs', {
