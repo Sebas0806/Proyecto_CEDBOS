@@ -2,9 +2,26 @@ const connection = require('../../config/db'),
 	bcryptjs = require('bcryptjs');
 
 const AuthControllers = {};
+const edad = (fecha) => {
+	let nacimiento = new Date(fecha);
+	let hoy = new Date();
+
+	let edad = hoy.getFullYear() - nacimiento.getFullYear();
+	let diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
+	if (
+		diferenciaMeses < 0 ||
+		(diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+	) {
+		edad--;
+	}
+	return edad;
+};
 
 AuthControllers.landingpageview = (req, res) => {
 	res.render('../views/LandingPage.ejs');
+};
+AuthControllers.checkdocumentview = (req, res) => {
+	res.render('../views/auth/CheckDocument.ejs');
 };
 
 AuthControllers.recoverpassview = (req, res) => {
@@ -29,61 +46,115 @@ AuthControllers.loginview = (req, res) => {
 	}
 };
 
-// Metodo de registro de datos
-AuthControllers.register = async (req, res) => {
-	const { user, names, lastnames, pass, Question, Answer } = req.body;
+AuthControllers.checkdocument = async (req, res) => {
+	const { NIP } = req.body;
+	let admin = await bcryptjs.hash('CEDBOS*admin', 8);
+	req.session.nip = NIP;
 	connection.query(
-		'SELECT * FROM users WHERE users = ?',
-		[user],
+		'SELECT * FROM integrantes WHERE NIP = ?',
+		[NIP],
 		async (error, results) => {
 			if (error) {
 				console.log(error);
 			} else {
 				if (results[0]) {
-					res.render('../views/auth/Register.ejs', {
+					if (
+						results[0].CondicionUsuario ||
+						edad(results[0].nacimiento) >= 15
+					) {
+						connection.query(
+							'SELECT * FROM users WHERE NIP = ?',
+							[NIP],
+							async (error, results) => {
+								if (error) {
+									console.log(error);
+								} else {
+									if (results[0]) {
+										res.render(
+											'../views/auth/CheckDocument.ejs',
+											{
+												alert: true,
+												alertTitle: 'Usuario existente',
+												alertMessage:
+													'El usuario ya se encuentra registrado',
+												alertIcon: 'error',
+												showConfirmButton: false,
+												ruta: 'register/checkdocument',
+											}
+										);
+									} else {
+										res.render(
+											'../views/auth/CheckDocument.ejs',
+											{
+												alert: true,
+												alertTitle:
+													'Preparando para registro',
+												alertMessage:
+													'Redireccionando a pagina de registro',
+												alertIcon: 'success',
+												showConfirmButton: false,
+												ruta: 'register',
+											}
+										);
+									}
+								}
+							}
+						);
+					} else {
+						res.render('../views/auth/CheckDocument.ejs', {
+							alert: true,
+							alertTitle: 'Usuario inactivo',
+							alertMessage:
+								'El miembro no se ha activado para tener un usuario',
+							alertIcon: 'error',
+							showConfirmButton: false,
+							ruta: '',
+						});
+					}
+				} else {
+					res.render('../views/auth/CheckDocument.ejs', {
 						alert: true,
-						alertTitle: 'Usuario erroneo',
-						alertMessage: 'El usuario ya se encuentra registrado',
+						alertTitle: 'Miembro invalido',
+						alertMessage: 'Documento no identificado',
 						alertIcon: 'error',
 						showConfirmButton: false,
-						ruta: 'register',
+						ruta: '',
 					});
-				} else {
-					const FullName = names + ' ' + lastnames;
-					let PasswordHash = await bcryptjs.hash(pass, 8),
-						AnswerHash = await bcryptjs.hash(Answer, 8);
-
-					//? Insertar los datos en la tabla users
-					connection.query(
-						'INSERT INTO users SET ?',
-						{
-							User: user,
-							Name: names,
-							LastName: lastnames,
-							FullName: FullName,
-							Pass: PasswordHash,
-							Question: Question,
-							Answer: AnswerHash,
-							SuperUser: 0,
-							Idgrupo: 1,
-						},
-						async (error, results) => {
-							if (error) {
-								console.log(error);
-							} else {
-								res.render('../views/auth/Register.ejs', {
-									alert: true,
-									alertTitle: 'Registrado',
-									alertMessage:
-										'El registro de usuario ha sido exitoso',
-									alertIcon: 'success',
-									showConfirmButton: false,
-									ruta: 'login',
-								});
-							}
-						}
-					);
 				}
+			}
+		}
+	);
+};
+
+// Metodo de registro de datos
+AuthControllers.register = async (req, res) => {
+	const { user, pass, question, answer } = req.body;
+	let PasswordHash = await bcryptjs.hash(pass, 8),
+		AnswerHash = await bcryptjs.hash(answer, 8);
+
+	//? Insertar los datos en la tabla users
+	connection.query(
+		'INSERT INTO users SET ?',
+		{
+			NIP: req.session.nip,
+			User: user,
+			Pass: PasswordHash,
+			Question: question,
+			Answer: AnswerHash,
+			SuperUser: 0,
+		},
+		async (error, results) => {
+			if (error) {
+				console.log(error);
+			} else {
+				res.render('../views/auth/Register.ejs', {
+					alert: true,
+					alertTitle: 'Registrado',
+					alertMessage: 'El registro de usuario ha sido exitoso',
+					alertIcon: 'success',
+					showConfirmButton: false,
+					ruta: 'login',
+				});
 			}
 		}
 	);
@@ -96,7 +167,7 @@ AuthControllers.auth = async (req, res) => {
 
 	if (user && pass) {
 		connection.query(
-			'SELECT * FROM users WHERE users = ?',
+			'SELECT * FROM Users WHERE User = ?',
 			[user],
 			async (err, results) => {
 				console.log(results);
@@ -119,18 +190,23 @@ AuthControllers.auth = async (req, res) => {
 						ruta: 'login',
 					});
 				} else {
-					req.session.loggedin = true;
-					req.session.name = results[0].FullName;
-					console.log(results[0].FullName);
+					connection.query(
+						'SELECT * FROM Integrantes WHERE NIP = ?',
+						[results[0].NIP],
+						async (error, results) => {
+							req.session.loggedin = true;
+							req.session.name = results[0].NombreCompleto;
 
-					res.render('../views/auth/Login.ejs', {
-						alert: true,
-						alertTitle: 'Has ingresado correctamente',
-						alertMessage: 'Conexion exitosa',
-						alertIcon: 'success',
-						showConfirmButton: true,
-						ruta: 'Home',
-					});
+							res.render('../views/auth/Login.ejs', {
+								alert: true,
+								alertTitle: 'Has ingresado correctamente',
+								alertMessage: 'Conexion exitosa',
+								alertIcon: 'success',
+								showConfirmButton: true,
+								ruta: 'Home',
+							});
+						}
+					);
 				}
 			}
 		);
@@ -162,7 +238,7 @@ AuthControllers.recover = async (req, res) => {
 
 	if (user && Question && Answer) {
 		connection.query(
-			'SELECT * FROM users WHERE users = ?',
+			'SELECT * FROM users WHERE user = ?',
 			[user],
 			async (err, results) => {
 				console.log(results);
