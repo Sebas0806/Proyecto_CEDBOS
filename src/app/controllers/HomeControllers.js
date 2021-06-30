@@ -44,8 +44,7 @@ Homecontrollers.registerstudent = async (req, res) => {
 						{
 							NIP: document,
 							td: typedocument,
-							nombres: name,
-							apellidos: lastname,
+							NombreCompleto: name + ' ' + lastname,
 							barrio: neighborhood,
 							municipio: municipality,
 							direccion: address,
