@@ -10,6 +10,8 @@ router.get('/home', AuthControllers.signin);
 router.get('/login', AuthControllers.loginview);
 // Logup view rendering
 router.get('/register', AuthControllers.registerview);
+
+router.get('/register/checkdocument', AuthControllers.checkdocumentview);
 // Password recovery view rendering
 router.get('/recover', AuthControllers.recoverpassview);
 // logout view rendering
@@ -17,6 +19,7 @@ router.get('/logout', AuthControllers.signoff);
 // New password view rendering
 router.get('/recover/newpass', AuthControllers.recovernewpassview);
 
+router.post('/register/checkdocument/validate', AuthControllers.checkdocument);
 // POST METHOD: Change password
 router.post('/recover/newpass/receivedpass', AuthControllers.newpass);
 // POST METHOD: Data check out
