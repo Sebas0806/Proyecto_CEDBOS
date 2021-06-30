@@ -1,0 +1,54 @@
+<%- include ('../partials/_header') %>
+    <title>Recupera tu contraseña</title>
+    <link rel="stylesheet" href="/resources/css/StyleReq.css">  
+    <link rel="stylesheet" href="/resources/css/styleF.css" />	
+</head>
+<body> 
+    <div class="container">
+        <div class="row justify-content-center align-content-center m-0 vh-100">
+            <!-- Register account -->
+            <div class="card shadow col-md-4">
+                <div class="card-header">
+                    <h3 class="text-center">Validar usuario</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/register/checkdocument/validate" class="row g-3 form" method="POST" id="Documentform">
+                        <div class="col-12">
+                            <input
+                                class="form-control"
+                                type="text"
+                                name="NIP"
+                                placeholder="Digite su documento de identidad"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <input
+                                type="submit"
+                                value="Validar"
+                                class="btn btn-success w-100"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <p><a href="/login">Volver</a></p>
+                </div>
+            </div>
+            <!-- Register account end -->
+        </div>
+    </div>
+    <script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+    <% if (typeof alert != "undefined") { %>
+    <script>
+        Swal.fire({
+            title: '<%= alertTitle %>',
+            text: '<%= alertMessage %>',
+            icon: '<%= alertIcon %>',
+            showCorfimationButton: ' <%= showConfirmButton %>',
+        }).then(() => {
+            window.location = '/<%=ruta%>';
+        });
+    </script>
+    <% } %> 
+<%- include ('../partials/_footer') %>
