@@ -3,9 +3,20 @@ const connection = require('../../config/db');
 const Homecontrollers = {};
 
 Homecontrollers.registerstudentview = (req, res) => {
-	res.render('../views/hometools/HomeRegisterUser.ejs');
+	if (req.session.loggedin) {
+		res.render('../views/hometools/HomeRegisterUser.ejs');
+	} else {
+		res.redirect('/login');
+	}
 };
 
+Homecontrollers.registerproductview = (req, res) => {
+	if (req.session.loggedin) {
+		res.render('../views/hometools/HomeRegisterProduct.ejs');
+	} else {
+		res.redirect('/login');
+	}
+};
 Homecontrollers.registerstudent = async (req, res) => {
 	const {
 		name,

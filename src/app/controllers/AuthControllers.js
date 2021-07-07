@@ -1,40 +1,43 @@
 const connection = require('../../config/db'),
+	edad = require('../../public/js/edad'),
 	bcryptjs = require('bcryptjs');
 
 const AuthControllers = {};
-const edad = (fecha) => {
-	let nacimiento = new Date(fecha);
-	let hoy = new Date();
-
-	let edad = hoy.getFullYear() - nacimiento.getFullYear();
-	let diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
-	if (
-		diferenciaMeses < 0 ||
-		(diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
-	) {
-		edad--;
-	}
-	return edad;
-};
 
 AuthControllers.landingpageview = (req, res) => {
 	res.render('../views/LandingPage.ejs');
 };
 AuthControllers.checkdocumentview = (req, res) => {
-	res.render('../views/auth/CheckDocument.ejs');
+	if (req.session.loggedin) {
+		res.redirect('/Home');
+	} else {
+		res.render('../views/auth/CheckDocument.ejs');
+	}
 };
 
 AuthControllers.recoverpassview = (req, res) => {
-	res.render('../views/auth/RecoverPass.ejs');
+	if (req.session.loggedin) {
+		res.redirect('/Home');
+	} else {
+		res.render('../views/auth/RecoverPass.ejs');
+	}
 };
 
 AuthControllers.recovernewpassview = (req, res) => {
-	res.render('../views/auth/NewPass.ejs');
+	if (req.session.loggedin) {
+		res.redirect('/Home');
+	} else {
+		res.render('../views/auth/NewPass.ejs');
+	}
 };
 
 // Metodo de renderizacion (register)
 AuthControllers.registerview = (req, res) => {
-	res.render('../views/auth/Register.ejs');
+	if (req.session.loggedin) {
+		res.redirect('/Home');
+	} else {
+		res.render('../views/auth/Register.ejs');
+	}
 };
 
 // Metodo de renderizacion (login)

@@ -3,6 +3,7 @@ const express = require('express'),
 	router = express.Router();
 
 router.get('/registerstudent', HomeControllers.registerstudentview);
+router.get('/registerproduct', HomeControllers.registerproductview);
 router.post('/registerstudent', HomeControllers.registerstudent);
 
 module.exports = router;
