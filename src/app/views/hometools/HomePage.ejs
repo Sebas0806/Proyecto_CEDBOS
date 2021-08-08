@@ -81,11 +81,68 @@
 						</button>
 					</div>
 				</nav>
-				<div class="container-fluid">	
-					<% if (login) { %>
-						<h1 class="text-center text-danger">¡Bienvenido <%= name %>!</h1>
-					<% } %>	
-				</div>
+				<div class="container-fluid">
+					<div class="opc m-2 p-2">
+						<h1 class="text-center text-black-50"><strong>CENTRO EDUCACIONAL DON BOSCO</strong></h1>
+					</div>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-lg-6 mt-3">
+								<img src="https://alfayomega.es/wp-content/uploads/2021/01/San-Juan-Bosco-23055.jpg" class="d-block w-100 h-100" alt="...">
+							</div>
+							<div class="col-lg-6 mt-3">	
+								<div class="row">
+									<div class="col-md-6 mt-2">
+										<div class="opc card h-100">
+											<div class="card-body">
+												<h5 class="card-title">¡Bienvenido!</h5>
+												<h6 class="card-subtitle mb-2 text-muted">Aplicativo grupo juvenil</h6>
+												<% if (login) { %>
+												<p class="card-text">Has iniciado sesion como: <%= name %></p>	
+												<% } %>		
+												<a href="/logout" class="btn btn-primary">Cerrar sesion</a>
+											</div>
+											</div>
+									</div>
+									<div class="col-md-6 mt-2">
+										<div class="opc card h-100">
+											<div class="card-body">
+												<h5 class="card-title">Registra nuevos miembros</h5>
+												<h6 class="card-subtitle mb-2 text-muted">Aplicativo grupo juvenil</h6>
+												<p class="card-text">Puedes visualizar e ingresar nuevos miembros</p>
+												<a href="/Home/student" class="card-link">Registrar</a>
+												<a href="/home/userHistory" class="card-link">Visualizar</a>
+											</div>
+											</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6 mt-2">
+										<div class="opc card h-100">
+											<div class="card-body">
+												<h5 class="card-title">Visualiza el estado del grupo</h5>
+												<h6 class="card-subtitle mb-2 text-muted">Aplicativo grupo juvenil</h6>
+												<p class="card-text">Visualiza los datos rapidamente a partir de graficos</p>
+												<a href="/home/charts" class="card-link">Visualizar graficas</a>
+											</div>
+											</div>
+									</div>
+									<div class="col-md-6 mt-2">
+										<div class="opc card h-100">
+											<div class="card-body">
+												<h5 class="card-title">Crea mercados</h5>
+												<h6 class="card-subtitle mb-2 text-muted">Aplicativo grupo juvenil</h6>
+												<p class="card-text">Crea y reporta la entrega de mercados</p>
+												<a href="/Home/foodbasket" class="card-link">Registrar</a>
+												<a href="/home/foodBasketHistory" class="card-link">Visualizar</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>
 		</div>
 		<div class="overlay"></div>
