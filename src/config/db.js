@@ -2,9 +2,10 @@ const mysql = require('mysql');
 
 // Establecimiento de los atributos de la conexion mysql
 const connection = mysql.createConnection({
-	host: process.env.DdHost,
-	user: process.env.DbUser,
-	database: process.env.DbDatabase,
+	host: 'us-cdbr-east-04.cleardb.com',
+	user: 'b717daa3ce9f57',
+	database: 'heroku_c90549540244ce3',
+	password: '3e9ffce6',
 });
 
 // Inicializacion de la conexion con la base de datos
