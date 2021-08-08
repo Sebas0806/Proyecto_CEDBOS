@@ -165,6 +165,10 @@ body {
 .content-table {
 	overflow: auto;
 }
+.opc {
+	background: #d1d1d141 !important;
+	border: 1px solid #d1d1d1 !important;
+}
 
 ::-webkit-scrollbar {
 	display: none;
