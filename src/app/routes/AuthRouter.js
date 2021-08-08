@@ -1,32 +1,32 @@
 const express = require('express'),
-	AuthControllers = require('../controllers/AuthControllers'),
+	authControllers = require('../controllers/authControllers'),
 	router = express.Router();
 
 // Landing view rendering
-router.get('/', AuthControllers.landingpageview);
+router.get('/', authControllers.landingpageview);
 // Home view rendering
-router.get('/home', AuthControllers.signin);
+router.get('/home', authControllers.signin);
 // Login view rendering
-router.get('/login', AuthControllers.loginview);
+router.get('/login', authControllers.loginview);
 // Logup view rendering
-router.get('/register', AuthControllers.registerview);
+router.get('/register', authControllers.registerview);
 
-router.get('/register/checkdocument', AuthControllers.checkdocumentview);
+router.get('/register/checkdocument', authControllers.checkdocumentview);
 // Password recovery view rendering
-router.get('/recover', AuthControllers.recoverpassview);
+router.get('/recover', authControllers.recoverpassview);
 // logout view rendering
-router.get('/logout', AuthControllers.signoff);
+router.get('/logout', authControllers.signoff);
 // New password view rendering
-router.get('/recover/newpass', AuthControllers.recovernewpassview);
+router.get('/recover/newpass', authControllers.recovernewpassview);
 
-router.post('/register/checkdocument/validate', AuthControllers.checkdocument);
+router.post('/register/checkdocument/validate', authControllers.checkdocument);
 // POST METHOD: Change password
-router.post('/recover/newpass/receivedpass', AuthControllers.newpass);
+router.post('/recover/newpass/receivedpass', authControllers.newpass);
 // POST METHOD: Data check out
-router.post('/recover/checkout', AuthControllers.recover);
+router.post('/recover/checkout', authControllers.recover);
 // POST METHOD: User log up
-router.post('/register', AuthControllers.register);
+router.post('/register', authControllers.register);
 // POST METHOD: User auth
-router.post('/auth', AuthControllers.auth);
+router.post('/auth', authControllers.auth);
 
 module.exports = router;

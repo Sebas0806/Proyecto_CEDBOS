@@ -1,0 +1,214 @@
+<%- include ('../partials/_header') %>
+		<link rel="stylesheet" href="/resources/css/datableStyle.css" />
+		<link rel="stylesheet" href="/resources/css/style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<nav class="sidebar">
+				<div class="dismiss">
+					<i class="fas fa-arrow-left"></i>
+				</div>
+				<div class="sidebar-header">
+					<img
+						src="https://archive.sdb.org/image/sdb-logo-big.png"
+						alt="..."
+						width="80"
+						class="rounded mx-auto d-block"
+					/>
+					<hr />
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<a href="/home">
+							<span> <i class="fas fa-home"></i></span>
+							Home
+						</a>
+					</li>
+					<li>
+						<a class="data-register-dropdown"
+							><span> <i class="fas fa-database"> </i> </span
+							>Registro de datos</a
+						>
+						<ul class="list-unstyled data-register-list">
+							<li><a href="/Home/student"> Registrar estudiante</a></li>
+							<li><a href="/Home/product"> Registrar productos</a></li>
+							<% if (admin) { %>
+							<li><a href="/Home/grade"> Registrar grados</a></li>
+							<li><a href="/Home/foodbasket"> Registrar mercado</a></li>
+							<% } %>
+						</ul>
+					</li>
+					<li>
+						<a class="data-history-dropdown"
+							><span><i class="fas fa-history"></i></span
+							>Historial</a
+						>
+						<ul class="list-unstyled data-history-list">
+							<li><a href="/home/productHistory">Historial de productos</a></li>
+							<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+							<li><a href="/home/userHistory">Historial de usuarios</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="/home/charts"
+                        	><span><i class="fas fa-chart-bar"></i></span
+                        	>Graficas</a
+                    	>
+					</li>
+					<li>
+						<a href="/logout"
+							><span><i class="fas fa-sign-out-alt"></i></span
+							>Cerrar Sesión</a
+						>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				<nav
+					class="
+						navbar navbar-expand-lg
+						bg-danger
+					"
+				>
+					<div class="container-fluid">
+						<button
+							type="button"
+							id="sidebarCollapse"
+							class="btn btn-danger"
+						>
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+					</div>
+				</nav>
+				<div class="container-fluid">	
+                    <div class="container-fluid table-responsive p-5 pt-0">
+                        <h1 class="text-danger text-center"> Mercados </h1>
+                        <table id="productTable" class="product-table table table-hover">
+                            <thead>
+                                <tr>
+                                    <th># Mercado</th>
+									<th>Disponibilidad</th>
+									<th>Descripcion</th>
+									<% if (conditional) { %>
+										<th>Acciones</th>
+									<% } %>
+                                </tr>
+                            </thead>
+                            <tbody>
+								<% for( let i = 0; i < merData.length; i++ ) { %>
+									<% if (!merData[i].Entregado || !conditional) { %>
+										<tr>
+											<td><%= merData[i].IdMer %> </td>
+											<% if (merData[i].Entregado) { %>
+												<td>Entregado</td>
+											<% } else {%>
+												<td>No entregado</td>
+											<% } %> 
+											<td>
+												<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#foodBasket<%= merData[i].IdMer %>">
+													Descripcion
+												</button>
+											</td>
+											<% if (conditional) { %>
+												<td>
+													<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#Disolver<%= merData[i].IdMer %>">
+														Disolver 
+													</button>
+													<button type="button" class="btn btn-success btn-sm"  data-bs-toggle="modal" data-bs-target="#Entregar<%= merData[i].IdMer %>">
+														Entregar
+													</button>
+												</td>
+											<% } %>
+										</tr>
+									<% } %>
+								<% } %>
+                            </tbody>
+                        </table>
+						<a href="/home/foodbasketDeliver" class="btn btn-danger">Visualizar mercados entregados</a>
+						<% for( let i = 0; i < merData.length; i++ ) { %>
+						<div class="modal fade" id="foodBasket<%= merData[i].IdMer %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Descripcion Mercado # <%= merData[i].IdMer %>  </h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<table class="product-table table table-sm table-hover table-bordered">
+										<thead>
+											<tr>
+												<th>Nombre del producto</th>
+												<th>Tipo</th>
+												<th>Marca</th>
+											</tr>
+										</thead>
+										<tbody>
+												<% for( let j = 0; j < productData.length; j++ ) { %>
+													<% if (merData[i].IdMer == productData[j].IdMer) { %>
+														<tr>
+															<td><%= productData[j].NombreProducto %></td>
+															<td><%= productData[j].Tipo %></td>
+															<td><%= productData[j].Marca %></td>
+														</tr>
+													<% } %>
+												<% } %>
+										</tbody>
+									</table>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div class="modal fade" id="Disolver<%= merData[i].IdMer %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Descripcion Mercado # <%= merData[i].IdMer %>  </h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<h4 class="h4 mb-3">¿Deseas disolver el mercado?</h4>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<a href="disolver/<%= merData[i].IdMer %>" class="btn btn-success">Disolver</a>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div class="modal fade" id="Entregar<%= merData[i].IdMer %>%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Entregar el mercado # <%= merData[i].IdMer %>  </h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<h4 class="h4 mb-3">¿Deseas entregar el mercado?</h4>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<a href="entregar/<%= merData[i].IdMer %>" class="btn btn-success">Entregar</a>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						<% } %>	
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="overlay"></div>
+		<script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+    	<% if (typeof alert != "undefined") { %>
+			<script>
+				Swal.fire({
+					title: '<%= alertTitle %>',
+					text: '<%= alertMessage %>',
+					icon: '<%= alertIcon %>',
+					showCorfimationButton: ' <%= showConfirmButton %>',
+				}).then(() => {
+					window.location = '/<%=ruta%>';
+				});
+			</script>
+		<% } %> 
+<%- include ('../partials/_footerHome') %>

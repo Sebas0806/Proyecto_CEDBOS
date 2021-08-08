@@ -29,20 +29,29 @@
 							>Registro de datos</a
 						>
 						<ul class="list-unstyled data-register-list">
-							<li><a href="/Home/registerstudent"> Registrar estudiante</a></li>
-							<li><a href="/Home/registerproduct"> Registrar productos</a></li>
+							<li><a href="/Home/student"> Registrar estudiante</a></li>
+							<li><a href="/Home/product"> Registrar productos</a></li>
+							<% if (admin) { %>
+							<li><a href="/Home/grade"> Registrar grados</a></li>
+							<li><a href="/Home/foodbasket"> Registrar mercado</a></li>
+							<% } %>
 						</ul>
 					</li>
 					<li>
-						<a href="#"
+						<a class="data-history-dropdown"
 							><span><i class="fas fa-history"></i></span
 							>Historial</a
 						>
+						<ul class="list-unstyled data-history-list">
+							<li><a href="/home/productHistory">Historial de productos</a></li>
+							<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+							<li><a href="/home/userHistory">Historial de usuarios</a></li>
+						</ul>
 					</li>
 					<li>
-						<a href="#"
-							><span><i class="fas fa-cog"></i></span
-							>Configuraciones</a
+						<a href="/home/charts"
+							><span><i class="fas fa-chart-bar"></i></span
+							>Graficas</a
 						>
 					</li>
 					<li>
@@ -79,4 +88,4 @@
 			</div>
 		</div>
 		<div class="overlay"></div>
-<%- include ('../partials/_footer') %>
+<%- include ('../partials/_footerHome') %>

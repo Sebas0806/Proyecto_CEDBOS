@@ -6,7 +6,7 @@ const edad = (fecha) => {
 	let diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
 	if (
 		diferenciaMeses < 0 ||
-		(diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+		(diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())
 	) {
 		edad--;
 	}

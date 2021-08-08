@@ -76,82 +76,55 @@
                 </div>
             </nav>
             <div class="container-fluid">
-                <form method="POST" class="form p-3" action="/Home/registerproduct">
-                    <h1 class="text-center text-danger">
-                        Registro de productos
-                    </h1>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label m-2">Nombre del producto</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="nombre_producto"
-                                required
-                            />
+               <h1 class="text-center text-danger mb-2">Crear mercados</h1>
+               <h4 class="text-muted">Productos incluidos: </h4>
+               <form action="/home/createFoodBasket" method="post">
+                   <div class="row">
+                       <div class="col-md-2">
+                           <div class="input-group mt-2 mb-3" >
+                               <input type="number" name="Granos" id="granos" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                           </div>
+                           <input type="checkbox" id="checkGranos" class="form-check-input">
+                           <label for="" class="form-check-label">Granos</label>
                         </div>
-                        <div class="col-md-2">
-                            <label class="form-label m-2"
-                                >Tipo de producto</label
-                            >
-                            <select
-                                name="tipo_producto"
-                                class="form-select"
-                                required
-                            >
-                                <option selected value=""></option>
-                                <option value="Granos">Granos</option>
-                                <option value="Harinas">Harinas</option>
-                                <option value="Enlatados">Enlatados</option>
-                                <option value="Embutidos">Embutidos</option>
-                                <option value="Aceites y mantecas">Aceites y mantecas</option>
-                                <option value="Otros">Otros</option>
-                            </select>
+                       <div class="col-md-2">
+                            <div class="input-group mt-2 mb-3">
+                                <input type="number" name="Harinas" id="harinas" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                            </div>
+                            <input type="checkbox" id="checkHarinas" class="form-check-input">
+                            <label for="" class="form-check-label">Harinas</label>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label m-2"
-                                >Cantidad</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="cantidad"
-                                required
-                            />
+                       <div class="col-md-2">
+                            <div class="input-group mt-2 mb-3">
+                                <input type="number" name="Enlatados" id="enlatados" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                            </div>
+                           <input type="checkbox" id="checkEnlatados" class="form-check-input">
+                           <label for="" class="form-check-label">Enlatados</label>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="form-label m-2">Marca</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                name="marca"
-                                required
-                            />
+                       <div class="col-md-2">
+                            <div class="input-group mt-2 mb-3">
+                                <input type="number" name="Embutidos" id="embutidos" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                            </div>
+                           <input type="checkbox" id="checkEmbutidos" class="form-check-input">
+                           <label for="" class="form-check-label">Embutidos</label>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label m-2">Grado</label>
-                            <select
-                                name="grado"
-                                class="form-select"
-                                required
-                            >   
-                                <option selected value=""></option>
-                                <% for( let i = 0; i < grados.length; i++ ) { %>
-                                    <option value= "<%= grados[i].Grado %>"><%= grados[i].Grado %></option>
-                                <% } %>
-                            </select>
+                       <div class="col-md-2">
+                            <div class="input-group mt-2 mb-3">
+                                <input type="number" name="Aceites y mantecas" id="aceites" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                            </div>
+                           <input type="checkbox" id="checkAceites" class="form-check-input">
+                           <label for="" class="form-check-label">Aceites y mantecas</label>
                         </div>
-                    </div>
-                    <button
-                    type="submit"
-                    class="btn btn-danger"
-                    style="margin-top: 40px; width: 200px;"
-                    >
-                        Registrar
-                    </button>
-                </form>
+                       <div class="col-md-2">
+                            <div class="input-group mt-2 mb-3">
+                                <input type="number" name="Otros" id="otros" class="form-control" placeholder="Cantidad por mercado" min="1" required>
+                            </div>
+                           <input type="checkbox" id="checkOtros" class="form-check-input">
+                           <label for="" class="form-check-label">Otros</label>
+                        </div>
+                   </div>
+                   <input type="submit" value="Generar mercados" class="btn btn-danger mt-4 p-2">
+               </form>
             </div>
         </div>
     </div>

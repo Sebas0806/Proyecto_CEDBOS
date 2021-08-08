@@ -1,0 +1,265 @@
+<%- include ('../partials/_header') %>
+		<link rel="stylesheet" href="/resources/css/datableStyle.css" />
+		<link rel="stylesheet" href="/resources/css/style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<nav class="sidebar">
+				<div class="dismiss">
+					<i class="fas fa-arrow-left"></i>
+				</div>
+				<div class="sidebar-header">
+					<img
+						src="https://archive.sdb.org/image/sdb-logo-big.png"
+						alt="..."
+						width="80"
+						class="rounded mx-auto d-block"
+					/>
+					<hr />
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<a href="/home">
+							<span> <i class="fas fa-home"></i></span>
+							Home
+						</a>
+					</li>
+					<li>
+						<a class="data-register-dropdown"
+							><span> <i class="fas fa-database"> </i> </span
+							>Registro de datos</a
+						>
+						<ul class="list-unstyled data-register-list">
+							<li><a href="/Home/student"> Registrar estudiante</a></li>
+							<li><a href="/Home/product"> Registrar productos</a></li>
+							<% if (admin) { %>
+							<li><a href="/Home/grade"> Registrar grados</a></li>
+							<li><a href="/Home/foodbasket"> Registrar mercado</a></li>
+							<% } %>
+						</ul>
+					</li>
+					<li>
+						<a class="data-history-dropdown"
+							><span><i class="fas fa-history"></i></span
+							>Historial</a
+						>
+						<ul class="list-unstyled data-history-list">
+							<li><a href="/home/productHistory">Historial de productos</a></li>
+							<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+							<li><a href="/home/userHistory">Historial de usuarios</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="/home/charts"
+                        	><span><i class="fas fa-chart-bar"></i></span
+                        	>Graficas</a
+                    	>
+					</li>
+					<li>
+						<a href="/logout"
+							><span><i class="fas fa-sign-out-alt"></i></span
+							>Cerrar Sesión</a
+						>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				<nav
+					class="
+						navbar navbar-expand-lg
+						bg-danger
+					"
+				>
+					<div class="container-fluid">
+						<button
+							type="button"
+							id="sidebarCollapse"
+							class="btn btn-danger"
+						>
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+					</div>
+				</nav>
+				<div class="container-fluid">	
+                    <div class="container-fluid table-responsive p-5 pt-0">
+                        <h1 class="text-danger text-center"> Usuarios </h1>
+                        <table id="productTable" class="product-table table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Numero de identificacion</th>
+									<th>Tipo de usuario</th>
+                                    <th>Usuario</th>
+									<th>Descripcion</th>
+									<th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+								<% for( let i = 0; i < userData.length; i++ ) { %>
+									<% if (!userData[i].SuperUser && membersData[i].EstadoMiembro) { %>
+										<tr>
+											<td><%= userData[i].NIP %></td>
+											<% if (userData[i].SuperUser) { %>
+												<td>Administrador</td>
+											<% } else {%>
+												<td>Usuario comun</td>
+											<% } %>
+											<td><%= userData[i].User %></td> 
+											<td>
+												<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#foodBasket<%= userData[i].NIP %>">
+													Descripcion
+												</button>
+											</td>
+											<% if (restriction) { %>
+												<td>
+													<button type="button" class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#bloqueoUser<%= userData[i].NIP %>">
+														Bloquear/Desbloquear
+													</button>
+													<button type="button" class="btn btn-success btn-sm mb-2"  data-bs-toggle="modal" data-bs-target="#userDeactive<%= userData[i].NIP%>">
+														Desactivar usuario
+													</button>
+												</td>
+											<% } else { %>
+												<td>
+													<button type="button" class="btn btn-danger btn-sm mb-2"  data-bs-toggle="modal" data-bs-target="#userDelete<%= userData[i].NIP%>">
+														Eliminar usuario
+													</button>
+												</td>
+											<% } %> 
+										</tr>
+									<% } %>
+								<% } %>
+                            </tbody>
+                        </table>
+						<% for( let i = 0; i < userData.length; i++ ) { %>
+						<div class="modal fade" id="foodBasket<%= userData[i].NIP %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-xl">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Descripcion del usuario <%= userData[i].User %></h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="table-responsive">
+										<table class="product-table table table-sm table-bordered">
+											<thead>
+												<tr>
+													<th>Nombre completo</th>
+													<th>Barrio</th>
+													<th>Municipio</th>
+													<th>Direccion</th>
+													<th>Telefono</th>
+													<th>Celular</th>
+													<th>Email</th>
+													<th>Sexo</th>
+													<th>Condicion</th>
+													<th>Estado de miembro</th>
+												</tr>
+											</thead>
+											<tbody>
+													<% for( let j = 0; j < membersData.length; j++ ) { %>
+														<% if (userData[i].NIP == membersData[j].NIP) { %>
+															<tr>
+																<td><%= membersData[j].NombreCompleto %></td>
+																<td><%= membersData[j].barrio %></td>
+																<td><%= membersData[j].municipio %></td>
+																<td><%= membersData[j].direccion %></td>
+																<td><%= membersData[j].telefono %></td>
+																<td><%= membersData[j].celular %></td>
+																<td><%= membersData[j].email %></td>
+																<td><%= membersData[j].sexo %></td>
+																<% if (membersData[j].CondicionUsuario) { %>
+																	<td>Disponible</td>
+																<% } else { %>
+																	<td>Bloqueado</td>
+																<% } %>
+																<% if (membersData[j].EstadoMiembro) { %>
+																	<td>Activo</td>
+																<% } else { %>
+																	<td>Inactivo</td>
+																<% } %>
+															</tr>
+														<% } %>
+													<% } %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div class="modal fade" id="userDelete<%= userData[i].NIP %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Eliminar usuario</h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<h4 class="h4 mb-3">¿Deseas eliminar al usuario permanentemente?</h4>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<a href="userDelete/<%= userData[i].NIP %>" class="btn btn-danger">Eliminar</a>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div class="modal fade" id="bloqueoUser<%= userData[i].NIP %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Modificar informacion del usuario</h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<h4 class="h4 mb-3">¿Deseas bloquear o desbloquear al usuario?</h4>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<a href="bloqueo/<%= userData[i].NIP %>" class="btn btn-success">Bloquear/Desbloquear</a>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						  <div class="modal fade" id="userDeactive<%= userData[i].NIP%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalLabel">Cambiar estado de usuario</h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<h4 class="h4 mb-3">¿Deseas desactivar al usuario <%= userData[i].User %>?</h4>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<a href="userDeactive/<%= userData[i].NIP %>" class="btn btn-success">Desactivar</a>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						<% } %>	
+						<a href="/home/inactivo" class="btn btn-danger">Mostrar usuarios inactivos</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+		<div class="overlay"></div>
+		<script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+		<% if (typeof alert != "undefined") { %>
+			<script>
+				Swal.fire({
+					title: '<%= alertTitle %>',
+					text: '<%= alertMessage %>',
+					icon: '<%= alertIcon %>',
+					showCorfimationButton: ' <%= showConfirmButton %>',
+				}).then(() => {
+					window.location = '/<%=ruta%>';
+				});
+			</script>
+		<% } %> 
+<%- include ('../partials/_footerHome') %>6

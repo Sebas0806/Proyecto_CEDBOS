@@ -15,4 +15,9 @@ $(document).ready(function () {
 		$('.sidebar ul .data-register-list').toggleClass('active');
 		$('.sidebar ul li .data-register-dropdown').toggleClass('active');
 	});
+
+	$('.data-history-dropdown').click(function () {
+		$('.sidebar ul .data-history-list').toggleClass('active');
+		$('.sidebar ul li .data-history-dropdown').toggleClass('active');
+	});
 });

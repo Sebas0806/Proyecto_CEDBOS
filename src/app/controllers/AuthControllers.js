@@ -2,12 +2,12 @@ const connection = require('../../config/db'),
 	edad = require('../../public/js/edad'),
 	bcryptjs = require('bcryptjs');
 
-const AuthControllers = {};
+const authControllers = {};
 
-AuthControllers.landingpageview = (req, res) => {
+authControllers.landingpageview = (req, res) => {
 	res.render('../views/LandingPage.ejs');
 };
-AuthControllers.checkdocumentview = (req, res) => {
+authControllers.checkdocumentview = (req, res) => {
 	if (req.session.loggedin) {
 		res.redirect('/Home');
 	} else {
@@ -15,7 +15,7 @@ AuthControllers.checkdocumentview = (req, res) => {
 	}
 };
 
-AuthControllers.recoverpassview = (req, res) => {
+authControllers.recoverpassview = (req, res) => {
 	if (req.session.loggedin) {
 		res.redirect('/Home');
 	} else {
@@ -23,7 +23,7 @@ AuthControllers.recoverpassview = (req, res) => {
 	}
 };
 
-AuthControllers.recovernewpassview = (req, res) => {
+authControllers.recovernewpassview = (req, res) => {
 	if (req.session.loggedin) {
 		res.redirect('/Home');
 	} else {
@@ -32,7 +32,7 @@ AuthControllers.recovernewpassview = (req, res) => {
 };
 
 // Metodo de renderizacion (register)
-AuthControllers.registerview = (req, res) => {
+authControllers.registerview = (req, res) => {
 	if (req.session.loggedin) {
 		res.redirect('/Home');
 	} else {
@@ -41,7 +41,7 @@ AuthControllers.registerview = (req, res) => {
 };
 
 // Metodo de renderizacion (login)
-AuthControllers.loginview = (req, res) => {
+authControllers.loginview = (req, res) => {
 	if (req.session.loggedin) {
 		res.redirect('/home');
 	} else {
@@ -49,16 +49,16 @@ AuthControllers.loginview = (req, res) => {
 	}
 };
 
-AuthControllers.checkdocument = async (req, res) => {
+authControllers.checkdocument = async (req, res) => {
 	const { NIP } = req.body;
 	let admin = await bcryptjs.hash('CEDBOS*admin', 8);
 	req.session.nip = NIP;
 	connection.query(
 		'SELECT * FROM integrantes WHERE NIP = ?',
 		[NIP],
-		async (error, results) => {
-			if (error) {
-				console.log(error);
+		async (err, results) => {
+			if (err) {
+				console.log(err);
 			} else {
 				if (results[0]) {
 					if (
@@ -68,11 +68,15 @@ AuthControllers.checkdocument = async (req, res) => {
 						connection.query(
 							'SELECT * FROM users WHERE NIP = ?',
 							[NIP],
-							async (error, results) => {
-								if (error) {
-									console.log(error);
+							async (err, results) => {
+								if (err) {
+									console.log(err);
 								} else {
-									if (results[0]) {
+									console.log(results[0].User);
+									if (
+										results[0] &&
+										results[0].User != 'Usuario sin crear'
+									) {
 										res.render(
 											'../views/auth/CheckDocument.ejs',
 											{
@@ -86,17 +90,28 @@ AuthControllers.checkdocument = async (req, res) => {
 											}
 										);
 									} else {
-										res.render(
-											'../views/auth/CheckDocument.ejs',
-											{
-												alert: true,
-												alertTitle:
-													'Preparando para registro',
-												alertMessage:
-													'Redireccionando a pagina de registro',
-												alertIcon: 'success',
-												showConfirmButton: false,
-												ruta: 'register',
+										connection.query(
+											'UPDATE integrantes SET CondicionUsuario = 1 WHERE NIP = ?',
+											[results[0].User],
+											(err) => {
+												if (err) {
+													console.log(err);
+												} else {
+													res.render(
+														'../views/auth/CheckDocument.ejs',
+														{
+															alert: true,
+															alertTitle:
+																'Preparando para registro',
+															alertMessage:
+																'Redireccionando a pagina de registro',
+															alertIcon:
+																'success',
+															showConfirmButton: false,
+															ruta: 'register',
+														}
+													);
+												}
 											}
 										);
 									}
@@ -106,7 +121,7 @@ AuthControllers.checkdocument = async (req, res) => {
 					} else {
 						res.render('../views/auth/CheckDocument.ejs', {
 							alert: true,
-							alertTitle: 'Usuario inactivo',
+							alertTitle: 'Usuario bloqueado',
 							alertMessage:
 								'El miembro no se ha activado para tener un usuario',
 							alertIcon: 'error',
@@ -130,25 +145,19 @@ AuthControllers.checkdocument = async (req, res) => {
 };
 
 // Metodo de registro de datos
-AuthControllers.register = async (req, res) => {
+authControllers.register = async (req, res) => {
 	const { user, pass, question, answer } = req.body;
 	let PasswordHash = await bcryptjs.hash(pass, 8),
 		AnswerHash = await bcryptjs.hash(answer, 8);
 
 	//? Insertar los datos en la tabla users
+	console.log(req.session.nip);
 	connection.query(
-		'INSERT INTO users SET ?',
-		{
-			NIP: req.session.nip,
-			User: user,
-			Pass: PasswordHash,
-			Question: question,
-			Answer: AnswerHash,
-			SuperUser: 0,
-		},
-		async (error, results) => {
-			if (error) {
-				console.log(error);
+		'UPDATE integrantes INNER JOIN users ON integrantes.NIP = users.NIP SET users.User = ?, users.Pass = ?, users.Question = ?, users.Answer = ?, users.SuperUser = 0, integrantes.CondicionUsuario = 1 WHERE users.NIP = ?',
+		[user, PasswordHash, question, AnswerHash, req.session.nip],
+		(err) => {
+			if (err) {
+				console.log(err);
 			} else {
 				res.render('../views/auth/Register.ejs', {
 					alert: true,
@@ -164,7 +173,7 @@ AuthControllers.register = async (req, res) => {
 };
 
 // Metodo de comprobacion de usuario (login)
-AuthControllers.auth = async (req, res) => {
+authControllers.auth = async (req, res) => {
 	const { user, pass } = req.body;
 	console.log(req.body);
 
@@ -173,43 +182,86 @@ AuthControllers.auth = async (req, res) => {
 			'SELECT * FROM Users WHERE User = ?',
 			[user],
 			async (err, results) => {
-				console.log(results);
-				if (results.length === 0) {
-					res.render('../views/auth/Login.ejs', {
-						alert: true,
-						alertTitle: 'El usuario no existe',
-						alertMessage: '',
-						alertIcon: 'error',
-						showConfirmButton: true,
-						ruta: 'login',
-					});
-				} else if (!(await bcryptjs.compare(pass, results[0].Pass))) {
-					res.render('../views/auth/Login.ejs', {
-						alert: true,
-						alertTitle: 'Contraseña incorrecta',
-						alertMessage: 'Intentalo de nuevo',
-						alertIcon: 'error',
-						showConfirmButton: true,
-						ruta: 'login',
-					});
+				if (err) {
+					console.log(err);
 				} else {
-					connection.query(
-						'SELECT * FROM Integrantes WHERE NIP = ?',
-						[results[0].NIP],
-						async (error, results) => {
-							req.session.loggedin = true;
-							req.session.name = results[0].NombreCompleto;
+					if (results.length === 0) {
+						res.render('../views/auth/Login.ejs', {
+							alert: true,
+							alertTitle: 'El usuario no existe',
+							alertMessage: '',
+							alertIcon: 'error',
+							showConfirmButton: true,
+							ruta: 'login',
+						});
+					} else if (
+						!(await bcryptjs.compare(pass, results[0].Pass))
+					) {
+						res.render('../views/auth/Login.ejs', {
+							alert: true,
+							alertTitle: 'Contraseña incorrecta',
+							alertMessage: 'Intentalo de nuevo',
+							alertIcon: 'error',
+							showConfirmButton: true,
+							ruta: 'login',
+						});
+					} else {
+						req.session.admin = results[0].SuperUser;
+						connection.query(
+							'SELECT * FROM Integrantes WHERE NIP = ?',
+							[results[0].NIP],
+							async (err, results) => {
+								if (err) {
+									console.log(err);
+								} else {
+									if (results[0].EstadoMiembro) {
+										if (results[0].CondicionUsuario) {
+											req.session.loggedin = true;
+											req.session.name =
+												results[0].NombreCompleto;
 
-							res.render('../views/auth/Login.ejs', {
-								alert: true,
-								alertTitle: 'Has ingresado correctamente',
-								alertMessage: 'Conexion exitosa',
-								alertIcon: 'success',
-								showConfirmButton: true,
-								ruta: 'Home',
-							});
-						}
-					);
+											res.render(
+												'../views/auth/Login.ejs',
+												{
+													alert: true,
+													alertTitle:
+														'Has ingresado correctamente',
+													alertMessage:
+														'Conexion exitosa',
+													alertIcon: 'success',
+													showConfirmButton: true,
+													ruta: 'Home',
+												}
+											);
+										} else {
+											res.render(
+												'../views/auth/Login.ejs',
+												{
+													alert: true,
+													alertTitle: 'Bloqueado',
+													alertMessage:
+														'El usuario se encuentra bloqueado',
+													alertIcon: 'error',
+													showConfirmButton: true,
+													ruta: '/',
+												}
+											);
+										}
+									} else {
+										res.render('../views/auth/Login.ejs', {
+											alert: true,
+											alertTitle: 'Usuario desactivado',
+											alertMessage:
+												'El usuario se ha eliminado',
+											alertIcon: 'error',
+											showConfirmButton: true,
+											ruta: '/',
+										});
+									}
+								}
+							}
+						);
+					}
 				}
 			}
 		);
@@ -217,10 +269,11 @@ AuthControllers.auth = async (req, res) => {
 };
 
 // Metodo de inicio de sesion
-AuthControllers.signin = (req, res) => {
+authControllers.signin = (req, res) => {
 	if (req.session.loggedin) {
 		res.render('../views/hometools/HomePage.ejs', {
 			login: true,
+			admin: req.session.admin,
 			name: req.session.name,
 		});
 	} else {
@@ -229,13 +282,13 @@ AuthControllers.signin = (req, res) => {
 };
 
 // Metodo de cierre de sesion
-AuthControllers.signoff = (req, res) => {
+authControllers.signoff = (req, res) => {
 	req.session.destroy(() => {
 		res.redirect('/');
 	});
 };
 
-AuthControllers.recover = async (req, res) => {
+authControllers.recover = async (req, res) => {
 	const { user, Question, Answer } = req.body;
 	console.log(req.body);
 
@@ -290,24 +343,28 @@ AuthControllers.recover = async (req, res) => {
 	}
 };
 
-AuthControllers.newpass = async (req, res) => {
+authControllers.newpass = async (req, res) => {
 	const { pass } = req.body;
 	let NewPassHash = await bcryptjs.hash(pass, 8);
 
 	connection.query(
-		'UPDATE users SET Pass = ? WHERE users = ?',
+		'UPDATE users SET Pass = ? WHERE user = ?',
 		[NewPassHash, req.session.user],
-		async (err, results) => {
-			res.render('../views/auth/NewPass.ejs', {
-				alert: true,
-				alertTitle: 'Se ha cambiado exitosamente su contraseña',
-				alertMessage: '',
-				alertIcon: 'success',
-				showConfirmButton: true,
-				ruta: 'login',
-			});
+		(err) => {
+			if (err) {
+				console.log(err);
+			} else {
+				res.render('../views/auth/NewPass.ejs', {
+					alert: true,
+					alertTitle: 'Se ha cambiado exitosamente su contraseña',
+					alertMessage: '',
+					alertIcon: 'success',
+					showConfirmButton: true,
+					ruta: 'login',
+				});
+			}
 		}
 	);
 };
 
-module.exports = AuthControllers;
+module.exports = authControllers;

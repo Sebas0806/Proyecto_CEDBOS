@@ -1,0 +1,308 @@
+<%- include ('../partials/_header') %>
+		<link rel="stylesheet" href="/resources/css/style.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<nav class="sidebar">
+				<div class="dismiss">
+					<i class="fas fa-arrow-left"></i>
+				</div>
+				<div class="sidebar-header">
+					<img
+						src="https://archive.sdb.org/image/sdb-logo-big.png"
+						alt="..."
+						width="80"
+						class="rounded mx-auto d-block"
+					/>
+					<hr />
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<a href="/home">
+							<span> <i class="fas fa-home"></i></span>
+							Home
+						</a>
+					</li>
+					<li>
+						<a class="data-register-dropdown"
+							><span> <i class="fas fa-database"> </i> </span
+							>Registro de datos</a
+						>
+						<ul class="list-unstyled data-register-list">
+							<li><a href="/Home/student"> Registrar estudiante</a></li>
+							<li><a href="/Home/product"> Registrar productos</a></li>
+							<% if (admin) { %>
+							<li><a href="/Home/grade"> Registrar grados</a></li>
+							<li><a href="/Home/foodbasket"> Registrar mercado</a></li>
+							<% } %>
+						</ul>
+					</li>
+					<li>
+						<a class="data-history-dropdown"
+							><span><i class="fas fa-history"></i></span
+							>Historial</a
+						>
+						<ul class="list-unstyled data-history-list">
+							<li><a href="/home/productHistory">Historial de productos</a></li>
+							<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+							<li><a href="/home/userHistory">Historial de usuarios</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="/home/charts"
+							><span><i class="fas fa-chart-bar"></i></span
+							>Graficas</a
+						>
+					</li>
+					<li>
+						<a href="logout"
+							><span><i class="fas fa-sign-out-alt"></i></span
+							>Cerrar Sesión</a
+						>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				<nav
+					class="
+						navbar navbar-expand-lg
+						bg-danger
+					"
+				>
+					<div class="container-fluid">
+						<button
+							type="button"
+							id="sidebarCollapse"
+							class="btn btn-danger"
+						>
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+					</div>
+				</nav>
+                        <div class="container-fluid p-3">
+                            <div class="container-fluid d-none d-lg-block">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="card bg-danger text-white mb-2">
+                                            <h5
+                                                class="card-title text-center mt-2 mb-0"
+                                            >
+                                                Grupo con mayor cantidad de productos
+                                            </h5>
+                                            <div class="row">
+                                                <div
+                                                    class="col-md-6 text-center"
+                                                    style="
+                                                        line-height: 100px;
+                                                        font-size: 60px;
+                                                    "
+                                                >
+                                                    <i class="fas fa-utensils"></i>
+                                                </div>
+                                                <div class="col-md-6 card-body">
+                                                    <h6 class="card-title m-0">
+                                                        <%= labelProductos[0] %>:
+                                                    </h6>
+                                                    <p
+                                                        class="card-text text-center"
+                                                        style="font-size: 30px"
+                                                    >
+                                                        <%= valoresProductos[0] %> 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="card bg-success text-white mb-2">
+                                            <div class="row">
+                                                <h5
+                                                    class="
+                                                        card-title
+                                                        text-center
+                                                        mt-2
+                                                        mb-0
+                                                    "
+                                                >
+                                                    Grupo con mayor aporte monetario
+                                                </h5>
+                                                <div
+                                                    class="col-md-6 text-center"
+                                                    style="
+                                                        line-height: 100px;
+                                                        font-size: 60px;
+                                                    "
+                                                >
+                                                    <i class="fas fa-money-bill"></i>
+                                                </div>
+                                                <div class="col-md-6 card-body">
+                                                    <h6 class="card-title m-0">
+                                                        <%= labelAportes[0] %>:
+                                                    </h6>
+                                                    <p
+                                                        class="card-text text-center"
+                                                        style="font-size: 30px"
+                                                    >
+                                                        <%= valoresAportes[0] %> 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="card bg-secondary text-white mb-2">
+                                            <div class="row">
+                                                <h5
+                                                    class="
+                                                        card-title
+                                                        text-center
+                                                        mt-2
+                                                        mb-0
+                                                    "
+                                                >
+                                                    Mercados entregados
+                                                </h5>
+                                                <div
+                                                    class="col-md-6 text-center"
+                                                    style="
+                                                        line-height: 100px;
+                                                        font-size: 60px;
+                                                    "
+                                                >
+                                                    <i class="fas fa-hands-helping"></i>
+                                                </div>
+                                                <div class="col-md-6 card-body">
+                                                    <h6 class="card-title m-0">
+                                                        En total son:
+                                                    </h6>
+                                                    <p
+                                                        class="card-text text-center"
+                                                        style="font-size: 30px"
+                                                    >
+                                                        <%= contador %> 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mt-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <canvas id="myChart"></canvas>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <canvas id="myChart3"></canvas>
+                                                <canvas id="myChart4"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <canvas id="myChart2"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+        <script src="/resources/ext/Chart.js/chart.min.js"></script>
+        <% if (true) { %>
+            <script>
+                const convertirArr = (arr) => {
+                    return arr.split((sep = ','));
+                };
+
+                const sumatoriaMeses = convertirArr('<%= sumatoriaMeses %>');
+                (meses = convertirArr('<%= mes %>')),
+                    (productoslabel = convertirArr('<%= labelProductos %>')),
+                    (productosValues = convertirArr('<%= valoresProductos %>')),
+                    (aporteLabel = convertirArr('<%= labelAportes %>')),
+                    (aporteValue = convertirArr('<%= valoresAportes %>'));
+
+                const labels = [1, 2, 3, 4, 5, 6, 7, 12, 34, 45];
+                const data = {
+                    labels: ['Usuarios', 'No usuarios'],
+                    datasets: [
+                        {
+                            label: 'Aportes monetarios mensuales',
+                            data: [Number('<%= user %>'), Number('<%= notUser %>')],
+                            fill: false,
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                            tension: 0.1,
+                        },
+                    ],
+                };
+
+                const config = {
+                    type: 'pie',
+                    data: data,
+                };
+                const config2 = {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [
+                            {
+                                label: 'Aporte total',
+                                data: sumatoriaMeses,
+                                fill: false,
+                                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                tension: 0.1,
+                            },
+                        ],
+                    },
+                };
+
+                const config3 = {
+                    type: 'bar',
+                    data: {
+                        labels: productoslabel,
+                        datasets: [
+                            {
+                                label: 'Productos',
+                                data: productosValues,
+                                fill: false,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1,
+                            },
+                        ],
+                    },
+                };
+
+                const config4 = {
+                    type: 'bar',
+                    data: {
+                        labels: aporteLabel,
+                        datasets: [
+                            {
+                                label: 'Aporte monetario',
+                                data: aporteValue,
+                                fill: false,
+                                backgroundColor: 'rgba(50, 205, 50, 0.2)',
+                                borderColor: 'rgba(50, 205, 50, 1)',
+                                borderWidth: 1,
+                            },
+                        ],
+                    },
+                };
+
+                const myChart = new Chart(document.getElementById('myChart'), config);
+                const myChart2 = new Chart(document.getElementById('myChart2'), config2);
+                const myChart3 = new Chart(document.getElementById('myChart3'), config3);
+                const mychart4 = new Chart(document.getElementById('myChart4'), config4);
+            </script>
+        <% } %>
+<%- include ('../partials/_footerHome') %>

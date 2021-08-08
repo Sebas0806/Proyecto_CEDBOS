@@ -1,0 +1,18 @@
+html,
+body {
+	font-family: 'Verdana';
+}
+
+.dataTables_paginate .pagination .paginate_button .page-link {
+	background: #fc283d;
+	color: white;
+	border: 1px solid #ffffff50;
+}
+
+.dataTables_paginate .pagination .paginate_button .page-link:active {
+	box-shadow: none;
+}
+
+.dataTables_wrapper {
+	padding: 10px;
+}
