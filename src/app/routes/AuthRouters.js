@@ -1,5 +1,5 @@
 const express = require('express'),
-	authControllers = require('../controllers/authControllers'),
+	authControllers = require('../controllers/AuthControllers'),
 	router = express.Router();
 
 // Landing view rendering

@@ -1,6 +1,6 @@
 const app = require('./config/server'),
 	auth = require('./app/routes/AuthRouters'),
-	homeTools = require('./app/routes/homeToolsRouter'),
+	homeTools = require('./app/routes/HomeToolsRouter'),
 	connection = require('./config/db');
 
 app.use('/', auth);
