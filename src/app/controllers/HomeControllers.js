@@ -224,7 +224,7 @@ homeControllers.userHistoryBlock = async (req, res) => {
 		});
 	};
 	const conditionalValue = await conditional(NIP);
-	if (Number(conditionalValue)) {
+	if (Number(conditionalValue) != 0) {
 		connection.query(
 			'UPDATE integrantes SET CondicionUsuario = 0 WHERE NIP = ?',
 			[NIP],
