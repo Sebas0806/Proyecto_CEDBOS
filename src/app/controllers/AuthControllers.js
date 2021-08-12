@@ -51,7 +51,6 @@ authControllers.loginview = (req, res) => {
 
 authControllers.checkdocument = async (req, res) => {
 	const { NIP } = req.body;
-	let admin = await bcryptjs.hash('CEDBOS*admin', 8);
 	req.session.nip = NIP;
 	connection.query(
 		'SELECT * FROM integrantes WHERE NIP = ?',
@@ -175,7 +174,6 @@ authControllers.register = async (req, res) => {
 // Metodo de comprobacion de usuario (login)
 authControllers.auth = async (req, res) => {
 	const { user, pass } = req.body;
-	console.log(req.body);
 
 	if (user && pass) {
 		connection.query(

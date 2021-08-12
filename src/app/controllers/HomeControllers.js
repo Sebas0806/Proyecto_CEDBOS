@@ -81,7 +81,6 @@ homeControllers.contributionGrade = (req, res) => {
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(results);
 				res.render('../views/hometools/HomeMonetaryContribution.ejs', {
 					admin: req.session.admin,
 					conditional: true,
@@ -487,8 +486,6 @@ homeControllers.producthistorydelete = (req, res) => {
 homeControllers.producthistoryedit = (req, res) => {
 	const idProduct = req.params.IdProducto,
 		{ nombreProducto, Marca, tipo_producto } = req.body;
-	console.table(req.body);
-	console.log(idProduct);
 	connection.query(
 		'UPDATE Productos SET NombreProducto = ?, Tipo = ?, Marca = ? WHERE IdProducto = ?',
 		[nombreProducto, tipo_producto, Marca, idProduct],
@@ -562,7 +559,6 @@ homeControllers.createfoodbasket = async (req, res) => {
 			),
 			maxId = await basketFoodMaxId();
 
-		console.log(minValue);
 		if (minValue) {
 			for (let i = 0; i < minValue; i++) {
 				idList.push(maxId + i);
@@ -697,7 +693,7 @@ homeControllers.registerproduct = async (req, res) => {
 				connection.query(
 					'UPDATE Grados SET CantidadProductos = ? WHERE IdGrado = ?',
 					[Number(cantidadproducto) + Number(cantidad), gradoId],
-					async (err, results) => {
+					(err) => {
 						if (err) {
 							console.log(err);
 						} else {
@@ -724,7 +720,7 @@ homeControllers.registerproduct = async (req, res) => {
 
 homeControllers.registergradeview = (req, res) => {
 	if (req.session.loggedin && req.session.admin) {
-		connection.query('SELECT * FROM grados', async (err, results) => {
+		connection.query('SELECT * FROM grados', (err, results) => {
 			if (err) {
 				console.log(err);
 			} else {
@@ -783,7 +779,7 @@ homeControllers.membersHistoryView = (req, res) => {
 		res.redirect('/login');
 	}
 };
-homeControllers.registerstudent = async (req, res) => {
+homeControllers.registerstudent = (req, res) => {
 	const {
 		name,
 		lastname,
@@ -802,7 +798,7 @@ homeControllers.registerstudent = async (req, res) => {
 	connection.query(
 		' SELECT * FROM integrantes WHERE NIP = ?',
 		[document],
-		async (err, results) => {
+		(err, results) => {
 			if (err) {
 				console.log(err);
 			} else {
@@ -874,12 +870,12 @@ homeControllers.registerstudent = async (req, res) => {
 	);
 };
 
-homeControllers.registergrade = async (req, res) => {
+homeControllers.registergrade = (req, res) => {
 	const { grado, grupo } = req.body;
 	connection.query(
 		'SELECT * FROM Grados WHERE grado = ?',
 		[grado],
-		async (err, results) => {
+		(err, results) => {
 			if (err) {
 				console.log(err);
 			} else {
@@ -888,7 +884,7 @@ homeControllers.registergrade = async (req, res) => {
 						connection.query(
 							'SELECT * FROM grados WHERE grado = ?',
 							grado + '-' + grupo,
-							async (err, results) => {
+							(err, results) => {
 								if (err) {
 									console.log(err);
 								} else {
@@ -900,7 +896,7 @@ homeControllers.registergrade = async (req, res) => {
 												AporteTotal: 0,
 												CantidadProductos: 0,
 											},
-											async (err, results) => {
+											(err) => {
 												if (err) {
 													console.log(err);
 												} else {
@@ -961,7 +957,7 @@ homeControllers.registergrade = async (req, res) => {
 												AporteTotal: 0,
 												CantidadProductos: 0,
 											},
-											async (err, results) => {
+											(err) => {
 												if (err) {
 													console.log(err);
 												} else {
@@ -1024,9 +1020,8 @@ homeControllers.registergrade = async (req, res) => {
 	);
 };
 
-homeControllers.deletegrade = async (req, res) => {
+homeControllers.deletegrade = (req, res) => {
 	const idgrado = req.params.IdGrado;
-	console.log(idgrado);
 	connection.query(
 		'DELETE FROM Grados WHERE IdGrado = ?',
 		[idgrado],
@@ -1049,7 +1044,7 @@ homeControllers.deletegrade = async (req, res) => {
 	);
 };
 
-homeControllers.updategrade = async (req, res) => {
+homeControllers.updategrade = (req, res) => {
 	const idgrado = req.params.IdGrado,
 		{ meses, dinero } = req.body;
 	connection.query(
@@ -1066,7 +1061,7 @@ homeControllers.updategrade = async (req, res) => {
 				connection.query(
 					'SELECT * FROM AportesMonetarios WHERE IdGrado = ?',
 					[idgrado],
-					async (err, results) => {
+					(err, results) => {
 						if (err) {
 							console.log(err);
 						} else {
@@ -1078,7 +1073,7 @@ homeControllers.updategrade = async (req, res) => {
 							connection.query(
 								'UPDATE Grados SET AporteTotal = ? WHERE IdGrado = ?',
 								[sumatoria, idgrado],
-								async (err, results) => {
+								(err) => {
 									if (err) {
 										console.log(err);
 									} else {
@@ -1174,10 +1169,6 @@ homeControllers.charts = async (req, res) => {
 			total = [etiquetas, valores];
 			return total;
 		};
-
-		// let tiempoTranscurrido = Date.now(),
-		// 	hoy = new Date(tiempoTranscurrido);
-		// const month = hoy.getMonth() + 1;
 
 		const meses = [
 			'01',
