@@ -39,23 +39,29 @@
 							<% } %>
 						</ul>
 					</li>
-					<li>
-						<a class="data-history-dropdown"
-							><span><i class="fas fa-history"></i></span
-							>Historial</a
-						>
-						<ul class="list-unstyled data-history-list">
-							<li><a href="/home/productHistory">Historial de productos</a></li>
-							<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
-							<li><a href="/home/userHistory">Historial de usuarios</a></li>
-						</ul>
-					</li>
-					<li>
-						<a href="/home/charts"
-                        	><span><i class="fas fa-chart-bar"></i></span
-                        	>Graficas</a
-                    	>
-					</li>
+					<% if (admin) { %>
+						<li>
+							<a class="data-history-dropdown"
+								><span><i class="fas fa-history"></i></span
+								>Historial</a
+							>
+							<ul class="list-unstyled data-history-list">
+								<li><a href="/home/productHistory">Historial de productos</a></li>
+								<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+								<li><a href="/home/userHistory">Historial de usuarios</a></li>
+								<li><a href="/Home/membersHistory">Historial de miembros</a></li>
+								<li><a href="/home/monetaryContribution">Historial de aportes</a></li>
+							</ul>
+						</li>
+					<% } %>
+                    <% if (admin) { %>
+                        <li>
+                            <a href="/home/charts"
+                                ><span><i class="fas fa-chart-bar"></i></span
+                                >Graficas</a
+                            >
+                        </li>
+                    <% } %>
 					<li>
 						<a href="/logout"
 							><span><i class="fas fa-sign-out-alt"></i></span

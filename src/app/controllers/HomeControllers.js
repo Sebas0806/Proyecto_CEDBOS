@@ -27,7 +27,7 @@ homeControllers.userhistorydelete = (req, res) => {
 					userData: req.session.users,
 					membersData: req.session.members,
 					alert: true,
-					alertTitle: 'Usuario eliminiado',
+					alertTitle: 'Usuario eliminado',
 					alertMessage: 'El usuario se ha eliminado permanentemente',
 					alertIcon: 'success',
 					showConfirmButton: false,
@@ -54,9 +54,84 @@ homeControllers.userinactive = (req, res) => {
 		}
 	);
 };
-
+homeControllers.monetarycontributionview = (req, res) => {
+	if (req.session.loggedin && req.session.admin) {
+		connection.query('SELECT Grado FROM Grados', (err, results) => {
+			if (err) {
+				console.log(err);
+			} else {
+				req.session.gradesAporte = results;
+				res.render('../views/hometools/HomeMonetaryContribution.ejs', {
+					admin: req.session.admin,
+					grades: req.session.gradesAporte,
+					conditional: false,
+				});
+			}
+		});
+	} else {
+		res.redirect('/login');
+	}
+};
+homeControllers.contributionGrade = (req, res) => {
+	const { grado } = req.body;
+	connection.query(
+		'SELECT AportesMonetarios.IdAporte AS Id, AportesMonetarios.Dinero AS Dinero, AportesMonetarios.Mes AS Mes FROM Grados INNER JOIN AportesMonetarios ON Grados.IdGrado = AportesMonetarios.IdGrado WHERE Grados.Grado = ?',
+		[grado],
+		(err, results) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log(results);
+				res.render('../views/hometools/HomeMonetaryContribution.ejs', {
+					admin: req.session.admin,
+					conditional: true,
+					aportes: results,
+					grades: req.session.gradesAporte,
+				});
+			}
+		}
+	);
+};
+homeControllers.contributionDelete = (req, res) => {
+	const idAporte = req.params.Id;
+	connection.query(
+		'UPDATE Grados INNER JOIN AportesMonetarios ON Grados.IdGrado = AportesMonetarios.IdGrado SET Grados.AporteTotal = Grados.AporteTotal - AportesMonetarios.Dinero WHERE AportesMonetarios.IdAporte = ?',
+		[idAporte],
+		(err) => {
+			if (err) {
+				console.log(err);
+			} else {
+				connection.query(
+					'DELETE FROM AportesMonetarios WHERE IdAporte = ?',
+					[idAporte],
+					(err) => {
+						if (err) {
+							console.log(err);
+						} else {
+							res.render(
+								'../views/hometools/HomeMonetaryContribution.ejs',
+								{
+									admin: req.session.admin,
+									grades: req.session.gradesAporte,
+									conditional: false,
+									alert: true,
+									alertTitle: 'Aporte eliminado',
+									alertMessage:
+										'El aporte monetario se ha eliminado',
+									alertIcon: 'success',
+									showConfirmButton: false,
+									ruta: 'home/monetaryContribution',
+								}
+							);
+						}
+					}
+				);
+			}
+		}
+	);
+};
 homeControllers.userhistoryview = (req, res) => {
-	if (req.session.loggedin) {
+	if (req.session.loggedin && req.session.admin) {
 		connection.query('SELECT * FROM users', (err, results) => {
 			if (err) {
 				console.log(err);
@@ -199,7 +274,7 @@ homeControllers.userHistoryBlock = async (req, res) => {
 };
 
 homeControllers.producthistoryview = (req, res) => {
-	if (req.session.loggedin) {
+	if (req.session.loggedin && req.session.admin) {
 		connection.query('SELECT * FROM Productos', (err, results) => {
 			if (err) {
 				console.log(err);
@@ -298,7 +373,7 @@ homeControllers.foodbasketdisolver = (req, res) => {
 };
 
 homeControllers.foodbaskethistoryview = (req, res) => {
-	if (req.session.loggedin) {
+	if (req.session.loggedin && req.session.admin) {
 		connection.query(
 			'SELECT * FROM Productos WHERE IdMer IS NOT NULL',
 			(err, results) => {
@@ -334,7 +409,7 @@ homeControllers.foodbaskethistoryview = (req, res) => {
 };
 
 homeControllers.foodbasketview = (req, res) => {
-	if (req.session.loggedin) {
+	if (req.session.loggedin && req.session.admin) {
 		res.render('../views/hometools/HomeFoodBasket.ejs', {
 			admin: req.session.admin,
 		});
@@ -648,27 +723,66 @@ homeControllers.registerproduct = async (req, res) => {
 };
 
 homeControllers.registergradeview = (req, res) => {
-	if (req.session.loggedin) {
-		if (req.session.admin) {
-			connection.query('SELECT * FROM grados', async (err, results) => {
-				if (err) {
-					console.log(err);
-				} else {
-					req.session.grades = results;
-					res.render('../views/hometools/HomeRegisterGrade.ejs', {
-						admin: req.session.admin,
-						grados: req.session.grades,
-					});
-				}
-			});
-		} else {
-			res.redirect('/Home');
-		}
+	if (req.session.loggedin && req.session.admin) {
+		connection.query('SELECT * FROM grados', async (err, results) => {
+			if (err) {
+				console.log(err);
+			} else {
+				req.session.grades = results;
+				res.render('../views/hometools/HomeRegisterGrade.ejs', {
+					admin: req.session.admin,
+					grados: req.session.grades,
+				});
+			}
+		});
 	} else {
 		res.redirect('/login');
 	}
 };
-
+homeControllers.editMembers = (req, res) => {
+	const Id = req.params.NIP;
+	const { name, email, municipality, neighborhood, address, telephone, cel } =
+		req.body;
+	connection.query(
+		'UPDATE Integrantes SET NombreCompleto = ?, barrio =  ?, email = ?, municipio = ?, direccion = ?, telefono = ?, celular = ? WHERE NIP = ? ',
+		[name, neighborhood, email, municipality, address, telephone, cel, Id],
+		(err) => {
+			if (err) {
+				console.log(err);
+			} else {
+				res.render('../views/hometools/HomeMembersHistory.ejs', {
+					admin: req.session.admin,
+					members: req.session.Members,
+					admin: req.session.admin,
+					members: req.session.Members,
+					alert: true,
+					alertTitle: 'Editado',
+					alertMessage: 'EL usuario ha sido editado',
+					alertIcon: 'success',
+					showConfirmButton: false,
+					ruta: 'Home/membersHistory',
+				});
+			}
+		}
+	);
+};
+homeControllers.membersHistoryView = (req, res) => {
+	if (req.session.loggedin && req.session.admin) {
+		connection.query('SELECT * FROM Integrantes', (err, results) => {
+			if (err) {
+				console.log(err);
+			} else {
+				req.session.Members = results;
+				res.render('../views/hometools/HomeMembersHistory.ejs', {
+					admin: req.session.admin,
+					members: req.session.Members,
+				});
+			}
+		});
+	} else {
+		res.redirect('/login');
+	}
+};
 homeControllers.registerstudent = async (req, res) => {
 	const {
 		name,
@@ -994,7 +1108,7 @@ homeControllers.updategrade = async (req, res) => {
 };
 
 homeControllers.charts = async (req, res) => {
-	if (req.session.loggedin) {
+	if (req.session.loggedin && req.session.admin) {
 		const dataCharts = (Query) => {
 			return new Promise((resolve, reject) => {
 				connection.query(Query, (err, results) => {

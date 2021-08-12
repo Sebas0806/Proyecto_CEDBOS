@@ -1,0 +1,164 @@
+<%- include ('../partials/_header') %>
+		<link rel="stylesheet" href="/resources/css/datableStyle.css" />
+		<link rel="stylesheet" href="/resources/css/style.css" />
+		<link rel="shortcut icon" href="#">
+	</head>
+	<body>
+		<div class="wrapper">
+			<nav class="sidebar">
+				<div class="dismiss">
+					<i class="fas fa-arrow-left"></i>
+				</div>
+				<div class="sidebar-header">
+					<img
+						src="https://archive.sdb.org/image/sdb-logo-big.png"
+						alt="..."
+						width="80"
+						class="rounded mx-auto d-block"
+					/>
+					<hr />
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<a href="/home">
+							<span> <i class="fas fa-home"></i></span>
+							Home
+						</a>
+					</li>
+					<li>
+						<a class="data-register-dropdown"
+							><span> <i class="fas fa-database"> </i> </span
+							>Registro de datos</a
+						>
+						<ul class="list-unstyled data-register-list">
+							<li><a href="/Home/student"> Registrar estudiante</a></li>
+							<li><a href="/Home/product"> Registrar productos</a></li>
+							<% if (admin) { %>
+							<li><a href="/Home/grade"> Registrar grados</a></li>
+							<li><a href="/Home/foodbasket"> Registrar mercado</a></li>
+							<% } %>
+						</ul>
+					</li>
+					<% if (admin) { %>
+						<li>
+							<a class="data-history-dropdown"
+								><span><i class="fas fa-history"></i></span
+								>Historial</a
+							>
+								<ul class="list-unstyled data-history-list">
+									<li><a href="/home/productHistory">Historial de productos</a></li>
+									<li><a href="/home/foodBasketHistory">Historial de mercado</a></li>
+									<li><a href="/home/userHistory">Historial de usuarios</a></li>
+									<li><a href="/Home/membersHistory">Historial de miembros</a></li>
+									<li><a href="/home/monetaryContribution">Historial de aportes</a></li>
+								</ul>
+							
+						</li>
+					<% } %>
+                    <% if (admin) { %>
+                        <li>
+                            <a href="/home/charts"
+                                ><span><i class="fas fa-chart-bar"></i></span
+                                >Graficas</a
+                            >
+                        </li>
+                    <% } %>
+					<li>
+						<a href="/logout"
+							><span><i class="fas fa-sign-out-alt"></i></span
+							>Cerrar Sesión</a
+						>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				<nav
+					class="
+						navbar navbar-expand-lg
+						bg-danger
+					"
+				>
+					<div class="container-fluid">
+						<button
+							type="button"
+							id="sidebarCollapse"
+							class="btn btn-danger"
+						>
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+					</div>
+				</nav>
+				<div class="container-fluid table-responsive p-5 pt-0">
+					<h1 class="text-danger text-center"> Aporte Monetario </h1>
+					<table id="productTable" class="product-table table table-hover">
+						<thead>
+							<tr>
+                                <th>Mes</th>
+                                <th>Dinero</th>
+                                <th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+                            <% if (conditional) { %>
+                                <% for( let i = 0; i < aportes.length; i++ ) { %>
+                                    <tr>
+                                        <td><%= aportes[i].Mes %> </td>
+                                        <td><%= aportes[i].Dinero %> </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModalAportes<%= aportes[i].Id %>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="DeleteModalAportes<%= aportes[i].Id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title text-uppercase" id="exampleModalLabel">Eliminar el aporte de <%=  aportes[i].Dinero %> pesos </h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>¿Deseas eliminar el aporte?</p>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <a href="contributionDelete/<%= aportes[i].Id %>" class="btn btn-danger">Eliminar</a>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% } %>
+						</tbody>
+					</table>
+                    <form action="/home/contributionGrade" method="post" class="w-50">
+                        <label class="form-label m-2">Grado</label>
+                        <select
+                            name="grado"
+                            class="form-select w-50"
+                            required
+                        >   
+                            <option selected value=""></option>
+                            <% for( let i = 0; i < grades.length; i++ ) { %>
+                                <option value= "<%= grades[i].Grado %>"><%= grades[i].Grado %></option>
+                            <% } %>
+                        </select>
+                        <button type="submit" class="btn btn-danger mt-3">Buscar aportes</button>
+                    </form>
+				</div>
+			</div>
+		</div>
+		<div class="overlay"></div>
+		<script src="/resources/ext/SweetAlert2/JsDelivrCDN.js"></script>
+		<% if (typeof alert != "undefined") { %>
+			<script>
+				Swal.fire({
+					title: '<%= alertTitle %>',
+					text: '<%= alertMessage %>',
+					icon: '<%= alertIcon %>',
+					showCorfimationButton: ' <%= showConfirmButton %>',
+				}).then(() => {
+					window.location = '/<%=ruta%>';
+				});
+			</script>
+		<% } %> 
+<%- include ('../partials/_footerHome') %>
