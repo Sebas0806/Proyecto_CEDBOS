@@ -1,0 +1,39 @@
+html,
+body {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	background: #eeee;
+}
+
+nav ul li {
+	padding: 15px;
+	border-left: 2px solid transparent;
+	width: 100%;
+}
+
+nav ul li a {
+	text-decoration: none;
+	font-size: 16px;
+	color: white;
+}
+
+nav ul li:hover {
+	text-decoration: none;
+	background: rgba(238, 238, 238, 0.247);
+	border-color: white;
+	transition: all 0.3s;
+}
+
+nav ul li:hover a:hover {
+	color: white;
+	font-size: 19px;
+}
+
+.content p {
+	font-size: 18px;
+	margin-top: 30px;
+	text-align: justify;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
