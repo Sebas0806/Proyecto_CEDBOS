@@ -170,10 +170,6 @@ body {
 	border: 1px solid #d1d1d1 !important;
 }
 
-::-webkit-scrollbar {
-	display: none;
-}
-
 @-moz-document url-prefix() {
 	/* Disable scrollbar Firefox */
 	html {
