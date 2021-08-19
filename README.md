@@ -1,6 +1,6 @@
-# Título del Proyecto
+# CEDBOS (Grupo Juvenil del Centro Educacional Don Bosco)
 
-_Acá va un párrafo que describa lo que es el proyecto_
+_El aplicativo permite crear, leer, actualizar y borrar información de los integrantes del grupo juvenil. Asimismo, en la contabilidad de productos de la canasta familiar y organización de mercados recolectados en el Centro Educacional Don Bosco para su repartición a familias en estado de vulnerabilidad. Dichos datos relacionados a las familias beneficiadas se albergarán en la aplicación. Por último, muestra a partir de gráficos estadísticas de los datos alusivos a la recolección de alimentos y donación monetaria brindada por los grados académicos de la institución educativa._
 
 ## Comenzando 🚀
 
@@ -37,7 +37,10 @@ _Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para 
 
 ## Ejecutando las pruebas ⚙️
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
+_Las pruebas se pueden hacer pruebas con el usuario de admin: 
+
+*Usuario: admin 
+*Contraseña: CEDBOS*admin_
 
 ### Analice las pruebas end-to-end 🔩
 
@@ -63,17 +66,16 @@ _Agrega notas adicionales sobre como hacer deploy_
 
 _Menciona las herramientas que utilizaste para crear tu proyecto_
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
-
-## Contribuyendo 🖇️
-
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
-
-## Wiki 📖
-
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
+*Nodejs
+*HTML
+*CSS
+*Javascript
+*Bootstrap v5.0
+*Jquery v3.6.0
+  *JqueryValidate v1.19.3
+  *JqueryDatables v1.10.25
+*FontAwesome v6.0
+*SweetAlert2
 
 ## Versionado 📌
 
